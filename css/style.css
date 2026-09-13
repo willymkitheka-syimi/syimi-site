@@ -1,0 +1,1089 @@
+/* ============================================================
+   SYIMI — design tokens
+   Palette drawn from the workshop's own materials: ebonized
+   mahogany, unbleached linen, the rust/terracotta shade fabric,
+   brass hardware, navy linen. Not a generic warm-cream palette.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,650&family=Work+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --ink: #1c1613;        /* ebonized mahogany — near-black, warm */
+  --paper: #f1ece1;      /* unbleached linen */
+  --paper-dim: #e7e0d2;  /* slightly deeper linen, for panels */
+  --mahogany: #6e3126;   /* natural mahogany wood tone — primary accent */
+  --rust: #b65a36;       /* shade fabric rust/terracotta — secondary accent */
+  --brass: #9c7a3c;      /* hardware brass — fine detail */
+  --navy: #26374a;       /* navy linen fabric — contrast blocks */
+  --line: rgba(28, 22, 19, 0.14);
+
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Work Sans', sans-serif;
+
+  --max-width: 1180px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* safety net: decorative glow effects intentionally bleed past their box */
+  overflow-wrap: break-word; /* safety net: long words/phrases break instead of forcing horizontal overflow */
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.08;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+h1 { font-size: clamp(2.6rem, 5vw, 4.4rem); font-weight: 500; }
+h2 { font-size: clamp(1.9rem, 3vw, 2.6rem); }
+h3 { font-size: 1.3rem; font-weight: 600; }
+
+p { margin: 0 0 1em; max-width: 62ch; }
+
+.lede {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: rgba(28,22,19,0.78);
+  max-width: 46ch;
+  margin-bottom: 0.6em;
+}
+
+/* ---------- header ---------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 74px;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 650;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.wordmark span { color: var(--mahogany); }
+
+nav.main-nav {
+  display: flex;
+  gap: 34px;
+}
+
+nav.main-nav a {
+  text-decoration: none;
+  font-size: 0.97rem;
+  color: var(--ink);
+  position: relative;
+  padding: 6px 0;
+}
+
+nav.main-nav a.active { color: var(--mahogany); }
+
+nav.main-nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: var(--mahogany);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+nav.main-nav a:hover::after,
+nav.main-nav a.active::after { transform: scaleX(1); }
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+.nav-toggle svg { width: 24px; height: 24px; }
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 2px 14px 2px 14px; /* echoes a lampshade taper — not uniform */
+  text-decoration: none;
+  font-size: 0.98rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--mahogany);
+  color: var(--paper);
+}
+.btn-primary:hover { background: #5a2820; }
+
+.btn-outline {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-outline:hover { border-color: var(--mahogany); color: var(--mahogany); }
+
+/* ---------- hero ---------- */
+
+.hero {
+  padding: 40px 0 44px;
+}
+
+.hero .wrap {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 48px;
+  align-items: center;
+}
+.hero .wrap > * { min-width: 0; }
+
+.hero-eyebrow {
+  font-size: 0.92rem;
+  color: var(--rust);
+  margin: 0 0 10px;
+  font-family: var(--font-body);
+}
+
+.hero h1 { margin-bottom: 14px; }
+
+.hero .lede { margin-bottom: 0.5em; }
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.hero-actions > * { min-width: 0; }
+
+/* ---------- photo placeholders ----------
+   Now a real <img> sits inside — filenames in /images are
+   renameable placeholders (see the note at the bottom of this
+   file) so real photos can drop in without touching markup. */
+
+.photo-placeholder {
+  position: relative;
+  border-radius: 2px 22px 2px 22px;
+  overflow: hidden;
+  background: var(--paper-dim);
+  min-height: 320px;
+}
+
+.photo-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero .photo-placeholder { aspect-ratio: 5 / 4; min-height: 280px; }
+
+/* ---------- sections ---------- */
+
+section { padding: 84px 0; }
+section.tight { padding: 56px 0; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  margin-bottom: 44px;
+  flex-wrap: wrap;
+}
+
+.dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+.dark p { color: rgba(241,236,225,0.72); }
+.dark .btn-outline { color: var(--paper); border-color: rgba(241,236,225,0.5); }
+.dark .btn-outline:hover { border-color: var(--rust); color: var(--rust); }
+
+.panel {
+  background: var(--paper-dim);
+}
+
+/* ---------- product grid ---------- */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px 24px;
+}
+
+.product-card {
+  text-decoration: none;
+  color: var(--ink);
+  display: block;
+}
+
+.product-card .photo-placeholder { aspect-ratio: 1 / 1; min-height: 0; margin-bottom: 14px; }
+
+.product-card .kind {
+  font-size: 0.8rem;
+  color: var(--rust);
+  margin: 0 0 3px;
+}
+
+.product-card h3 { margin-bottom: 4px; font-size: 1.15rem; }
+
+.product-card .price { color: rgba(28,22,19,0.6); font-size: 0.95rem; }
+
+/* ---------- product detail ---------- */
+
+.product-detail .wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.product-detail .photo-placeholder { aspect-ratio: 4 / 5; min-height: 460px; }
+
+.product-meta .kind { color: var(--rust); font-size: 0.95rem; margin-bottom: 10px; }
+.product-meta h1 { font-size: clamp(2.2rem, 4vw, 3rem); margin-bottom: 14px; }
+.product-meta .price { font-size: 1.3rem; margin: 18px 0 28px; }
+
+.spec-list {
+  list-style: none;
+  margin: 32px 0 0;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--line);
+}
+.spec-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.95rem;
+}
+.spec-list dt, .spec-list .label { color: rgba(28,22,19,0.6); flex-shrink: 0; }
+.spec-list li > span:last-child { min-width: 0; text-align: right; }
+
+/* ---------- process / steps (legitimate sequence) ---------- */
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+.step .num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--rust);
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* ---------- footer ---------- */
+
+footer.site-footer {
+  background: var(--ink);
+  color: rgba(241,236,225,0.75);
+  padding: 64px 0 32px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(241,236,225,0.14);
+}
+
+.footer-grid .wordmark { color: var(--paper); }
+.footer-grid h4 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0 0 16px;
+  color: var(--paper);
+}
+.footer-grid ul { list-style: none; padding: 0; margin: 0; }
+.footer-grid li { margin-bottom: 10px; }
+.footer-grid a { text-decoration: none; font-size: 0.95rem; }
+.footer-grid a:hover { color: var(--rust); }
+
+.footer-bottom {
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ---------- form (contact) ---------- */
+
+form.enquiry {
+  display: grid;
+  gap: 18px;
+  max-width: 480px;
+}
+form.enquiry label {
+  display: block;
+  font-size: 0.88rem;
+  margin-bottom: 6px;
+  color: rgba(28,22,19,0.7);
+}
+form.enquiry input,
+form.enquiry select,
+form.enquiry textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  border-radius: 2px;
+}
+form.enquiry textarea { min-height: 120px; resize: vertical; }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 900px) {
+  .hero .wrap { grid-template-columns: 1fr; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-detail .wrap { grid-template-columns: 1fr; gap: 36px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  nav.main-nav {
+    position: absolute;
+    top: 74px; left: 0; right: 0;
+    background: var(--paper);
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+    display: none;
+  }
+  nav.main-nav.open { display: flex; }
+  nav.main-nav a { padding: 16px 20px; border-bottom: 1px solid var(--line); }
+  .nav-toggle { display: block; }
+  .product-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; scroll-behavior: auto !important; }
+}
+
+:focus-visible {
+  outline: 2px solid var(--mahogany);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Added for the 4-page restructure: category tiles, product
+   detail gallery (thumb column + main image), variant swatches,
+   breadcrumb.
+   ============================================================ */
+
+.category-tiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.category-tile { text-decoration: none; color: var(--ink); display: block; }
+.category-tile .photo-placeholder { aspect-ratio: 16 / 11; min-height: 0; margin-bottom: 20px; }
+.category-tile h3 { margin-bottom: 8px; }
+.category-tile p { margin-bottom: 18px; color: rgba(28,22,19,0.7); }
+
+.breadcrumb {
+  font-size: 0.85rem;
+  color: rgba(28,22,19,0.5);
+  margin-bottom: 22px;
+}
+.breadcrumb a { text-decoration: none; }
+.breadcrumb a:hover { color: var(--mahogany); }
+
+.detail-gallery {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 14px;
+}
+
+/* Thumbnails: a fully self-contained component. Deliberately does
+   NOT use the shared .photo-placeholder class — that class carries
+   a min-height meant for large hero/card photos, and min-height
+   always wins over a smaller height when both apply, which is
+   exactly what silently broke this twice before. Zero shared
+   ancestry here means there is nothing left to inherit. */
+.thumb-col {
+  display: grid;
+  grid-template-rows: repeat(4, 72px);
+  gap: 10px;
+  width: 72px;
+}
+.thumb {
+  display: block;
+  box-sizing: border-box;
+  width: 72px;
+  height: 72px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.thumb.active-thumb { border-color: var(--mahogany); }
+.thumb:hover:not(.active-thumb) { opacity: 0.85; }
+.main-photo .photo-placeholder { aspect-ratio: 4 / 5; min-height: 460px; }
+
+.variant-group { margin-top: 26px; }
+.variant-group .variant-label {
+  display: block;
+  font-size: 0.85rem;
+  color: rgba(28,22,19,0.6);
+  margin-bottom: 10px;
+}
+.variant-swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+.variant-swatches button {
+  padding: 9px 16px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-family: var(--font-body);
+  font-size: 0.87rem;
+  color: var(--ink);
+  cursor: pointer;
+  border-radius: 2px;
+}
+.variant-swatches button.selected {
+  border-color: var(--mahogany);
+  color: var(--mahogany);
+}
+.variant-note {
+  font-size: 0.82rem;
+  color: rgba(28,22,19,0.5);
+  margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+  .category-tiles { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .category-tile p { font-size: 0.85rem; }
+}
+@media (max-width: 640px) {
+  .detail-gallery { grid-template-columns: 1fr; }
+  .thumb-col {
+    width: auto;
+    grid-template-rows: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 60px;
+    grid-auto-rows: 60px;
+    overflow-x: auto;
+  }
+  .thumb { width: 60px; height: 60px; }
+}
+
+/* ============================================================
+   Added: color swatch cards (real fabric colors), story page
+   pull-quote and readable-width article column.
+   ============================================================ */
+
+.color-swatches {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.color-card {
+  width: 90px;
+  background: none;
+  border: 1px solid transparent;
+  padding: 6px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-align: center;
+}
+.color-card .chip {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  border: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+.color-card span {
+  font-size: 0.78rem;
+  color: var(--ink);
+  display: block;
+}
+.color-card.selected { border-color: var(--mahogany); }
+.color-card.selected .chip { outline: 2px solid var(--mahogany); outline-offset: 2px; }
+
+.prose { max-width: 640px; margin: 0 auto; }
+.prose h2 {
+  text-align: center;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--mahogany);
+  margin: 64px 0 26px;
+  letter-spacing: 0.01em;
+}
+.prose h2::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: var(--rust);
+  margin: 0 auto 22px;
+}
+.prose h2:first-child { margin-top: 0; }
+.prose h2:first-child::before { display: none; }
+.prose p { max-width: none; margin-bottom: 1.15em; font-size: 1.02rem; }
+.prose > p:first-of-type::first-letter {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 3.2rem;
+  line-height: 0.75;
+  float: left;
+  padding: 6px 10px 0 0;
+  color: var(--mahogany);
+}
+
+.story-pullquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  color: var(--mahogany);
+  text-align: center;
+  border: none;
+  padding: 0;
+  margin: 52px auto;
+  max-width: 440px;
+  line-height: 1.45;
+}
+.story-pullquote::before {
+  content: '';
+  display: block;
+  width: 30px;
+  height: 1px;
+  background: var(--brass);
+  margin: 0 auto 22px;
+}
+
+.byline {
+  margin-top: 56px;
+  padding-top: 0;
+  border-top: none;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: rgba(28,22,19,0.6);
+  text-align: center;
+}
+.byline::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 1px;
+  background: var(--line);
+  margin: 0 auto 24px;
+}
+
+/* ============================================================
+   Added: image logo (replaces text wordmark)
+   ============================================================ */
+
+.logo-mark { height: 42px; width: auto; display: block; }
+.footer-grid .logo-mark { height: 38px; }
+a.wordmark { transition: opacity 0.2s ease; }
+a.wordmark:hover { opacity: 0.8; }
+
+/* ============================================================
+   Added: premium centered treatment for the story page only —
+   dedicated hero, reading-progress bar, scroll-reveal animation.
+   Scoped to classes that only appear on story.html.
+   ============================================================ */
+
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--mahogany);
+  z-index: 100;
+  transition: width 0.1s linear;
+}
+
+.story-hero {
+  padding: 64px 0 48px;
+  text-align: center;
+}
+.story-hero .wrap { max-width: 640px; }
+.story-eyebrow {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--rust);
+  margin: 0 0 16px;
+}
+.story-title {
+  font-size: clamp(2rem, 3.6vw, 2.75rem);
+  margin-bottom: 20px;
+}
+.story-subtitle {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(28,22,19,0.7);
+  max-width: 48ch;
+  margin: 0 auto 40px;
+}
+.story-hero-photo {
+  max-width: 480px;
+  aspect-ratio: 16 / 10;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+@media (max-width: 640px) {
+  .prose > p:first-of-type::first-letter { font-size: 2.5rem; }
+}
+
+/* ============================================================
+   Added: home page — refined hero scale (now unique to .hero
+   since the story page uses its own .story-hero), an interactive
+   "switch it on" lamp glow, category tile hover polish, and a
+   staggered scroll-reveal for the tiles and CTA row.
+   ============================================================ */
+
+.hero h1 { font-size: clamp(2.1rem, 3.6vw, 3rem); }
+
+/* Hero photo: no hard box — a soft radial mask lets it dissolve
+   into the page background instead of sitting in a sharp-edged
+   rectangle. Works the same whether the image sits beside the
+   text (desktop) or below it (mobile). Uses a plain overlay
+   gradient (not CSS `mask`) since mask-image support/behaviour
+   is inconsistent — this renders identically everywhere. */
+.hero-photo-glow { position: relative; }
+.hero-photo-glow::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at 50% 42%, rgba(245, 190, 96, 0.6), rgba(245, 190, 96, 0) 60%);
+  opacity: 0;
+  transition: opacity 0.9s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-photo-glow.is-on::before { opacity: 1; }
+.hero-photo-glow .photo-placeholder {
+  position: relative;
+  z-index: 1;
+  border-radius: 0;
+  overflow: hidden;
+}
+.hero-photo-glow .photo-placeholder img { transition: filter 0.9s ease; }
+.hero-photo-glow.is-on .photo-placeholder img { filter: brightness(1.15) saturate(1.2) contrast(1.03); }
+.hero-photo-glow .photo-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(ellipse 78% 78% at 50% 42%, transparent 42%, var(--paper) 96%);
+  transition: background 0.9s ease;
+}
+.hero-photo-glow.is-on .photo-placeholder::after {
+  background: radial-gradient(ellipse 88% 88% at 50% 42%, rgba(245, 190, 96, 0) 30%, rgba(245, 190, 96, 0.6) 68%, var(--paper) 100%);
+}
+
+.lamp-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 20px 7px 7px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--ink);
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+.lamp-toggle:hover { border-color: var(--brass); }
+.lamp-toggle-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(28, 22, 19, 0.15);
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+  flex-shrink: 0;
+}
+.lamp-toggle.is-on {
+  border-color: var(--brass);
+  color: var(--mahogany);
+}
+.lamp-toggle.is-on .lamp-toggle-dot {
+  background: #f5be60;
+  box-shadow: 0 0 14px 4px rgba(245, 190, 96, 0.65);
+}
+
+/* Category tiles: image zoom + synced button highlight on hover */
+.category-tile .photo-placeholder { overflow: hidden; }
+.category-tile .photo-placeholder img { transition: transform 0.7s ease; }
+.category-tile:hover .photo-placeholder img { transform: scale(1.06); }
+.category-tile:hover .btn-outline { border-color: var(--mahogany); color: var(--mahogany); }
+
+/* Staggered reveal for repeated items — nth-child delay */
+.category-tiles .reveal:nth-child(1) { transition-delay: 0s; }
+.category-tiles .reveal:nth-child(2) { transition-delay: 0.12s; }
+
+.product-grid .reveal:nth-child(1) { transition-delay: 0s; }
+.product-grid .reveal:nth-child(2) { transition-delay: 0.08s; }
+.product-grid .reveal:nth-child(3) { transition-delay: 0.16s; }
+.product-grid .reveal:nth-child(4) { transition-delay: 0.24s; }
+
+.hero .wrap > div:first-child > .reveal:nth-child(1) { transition-delay: 0s; }
+.hero .wrap > div:first-child > .reveal:nth-child(2) { transition-delay: 0.08s; }
+.hero .wrap > div:first-child > .reveal:nth-child(3) { transition-delay: 0.16s; }
+.hero .wrap > div:first-child > .reveal:nth-child(4) { transition-delay: 0.24s; }
+.hero .wrap > div:first-child > .reveal:nth-child(5) { transition-delay: 0.32s; }
+.hero .wrap > div:first-child > .reveal:nth-child(5) { transition-delay: 0.32s; }
+.hero .wrap > div:first-child > .reveal:nth-child(6) { transition-delay: 0.4s; }
+
+/* Home CTA button: soft glow lift on hover, matching the lamp theme */
+.panel .btn-primary { transition: background 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease; }
+.panel .btn-primary:hover { box-shadow: 0 6px 22px rgba(110, 49, 38, 0.35); transform: translateY(-1px); }
+
+/* ============================================================
+   Fix: contact page's two-column layout was inline-styled with
+   no responsive fallback — squeezed unusably on small phones.
+   ============================================================ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+}
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+}
+
+/* ============================================================
+   Added: table lamp listing + detail page pass.
+   - 4-item grid modifier (avoids an orphaned 3+1 row)
+   - product card hover polish (ecom pattern)
+   - shorter product-detail image column so pages fit better
+   - main photo zoom-on-hover
+   - sticky mobile "order" bar
+   ============================================================ */
+
+/* 4-up grid that degrades to 2x2 then 1-up, instead of the
+   default 3-2-1 which leaves an orphaned single card on a
+   4-item grid. Placed after the base .product-grid queries so
+   it wins at matching specificity. */
+.product-grid--four { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1100px) {
+  .product-grid--four { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .product-grid--four { grid-template-columns: 1fr; }
+}
+
+/* Product card hover: image zoom, soft lift, title picks up brand color */
+.product-card .photo-placeholder { overflow: hidden; transition: box-shadow 0.3s ease; }
+.product-card .photo-placeholder img { transition: transform 0.6s ease; }
+.product-card:hover .photo-placeholder img { transform: scale(1.06); }
+.product-card:hover .photo-placeholder { box-shadow: 0 14px 32px rgba(28, 22, 19, 0.16); }
+.product-card h3 { transition: color 0.2s ease; }
+.product-card:hover h3 { color: var(--mahogany); }
+
+/* Slightly tighter section rhythm sitewide */
+section.tight { padding: 44px 0; }
+.section-head { margin-bottom: 26px; }
+
+/* Product detail: give the image column less width/height so the
+   whole page needs less scrolling, and zoom the main photo on hover.
+   Explicitly scoped to min-width so it can never win against the
+   mobile 1-column override below regardless of source order — that
+   ambiguity (unscoped rule placed after a max-width media query)
+   is exactly what silently broke this on mobile. */
+@media (min-width: 901px) {
+  .product-detail .wrap { grid-template-columns: 0.85fr 1fr 0.72fr; gap: 40px; }
+  .product-detail .photo-placeholder { aspect-ratio: 4 / 4.1; min-height: 300px; }
+  .main-photo .photo-placeholder { aspect-ratio: 4 / 4.1; min-height: 300px; }
+}
+.main-photo .photo-placeholder { overflow: hidden; cursor: zoom-in; }
+.main-photo .photo-placeholder img { transition: transform 0.5s ease; }
+.main-photo .photo-placeholder:hover img { transform: scale(1.08); }
+
+/* Compact "You might also like" sidebar — sits as a third column
+   beside the gallery and product info, items stacked vertically,
+   instead of a full-width section requiring extra scrolling. */
+.also-like-panel h2 {
+  font-size: 1.02rem;
+  font-weight: 600;
+  font-style: normal;
+  text-align: left;
+  margin: 0 0 16px;
+}
+.also-like-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.also-like-item:first-child { padding-top: 0; }
+.also-like-item:last-child { border-bottom: none; }
+.also-like-thumb {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.also-like-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.also-like-item h4 { font-size: 0.95rem; margin: 0 0 3px; transition: color 0.2s ease; }
+.also-like-item p { font-size: 0.85rem; color: var(--mahogany); margin: 0; }
+.also-like-item:hover h4 { color: var(--mahogany); }
+@media (max-width: 900px) {
+  .also-like-panel { border-top: 1px solid var(--line); padding-top: 28px; margin-top: 8px; }
+}
+
+/* Sticky mobile order bar — shows once the main CTA scrolls out of view */
+.sticky-order-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  padding: 12px 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 40;
+  display: none;
+  box-shadow: 0 -8px 24px rgba(28, 22, 19, 0.08);
+}
+.sticky-order-bar.is-visible { transform: translateY(0); }
+.sticky-order-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.sticky-order-info { display: flex; flex-direction: column; line-height: 1.25; }
+.sticky-order-info .sticky-price { color: var(--mahogany); font-weight: 600; font-size: 0.95rem; }
+.sticky-order-bar .btn { padding: 11px 20px; font-size: 0.92rem; }
+@media (max-width: 900px) {
+  .sticky-order-bar { display: block; }
+}
+
+/* ============================================================
+   Added: contact page — icon-badge contact methods
+   ============================================================ */
+.contact-panel { padding: 32px; }
+.contact-panel h3 { font-size: 1.15rem; margin-bottom: 16px; }
+.contact-panel p { margin-bottom: 0; }
+.contact-method {
+  display: flex;
+  gap: 13px;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.contact-method:last-child { border-bottom: none; padding-bottom: 0; }
+.contact-method:first-of-type { padding-top: 0; }
+.contact-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+.contact-icon svg { width: 16px; height: 16px; }
+.contact-icon--map { background: var(--mahogany); }
+.contact-icon--whatsapp { background: #25D366; }
+.contact-icon--email { background: var(--brass); }
+.contact-icon--instagram {
+  background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+.contact-label {
+  display: block;
+  font-size: 0.78rem;
+  color: rgba(28, 22, 19, 0.55);
+  margin-bottom: 1px;
+}
+.contact-method a { text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+.contact-method a:hover { color: var(--mahogany); }
+.contact-method p { font-size: 0.95rem; line-height: 1.4; }
+
+/* ============================================================
+   Added: listing page intro — heading stays left, the combined
+   description sits centered as its own block beneath it.
+   ============================================================ */
+.listing-intro {
+  text-align: center;
+  max-width: 56ch;
+  margin: 0 auto 30px;
+  color: rgba(28, 22, 19, 0.78);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+/* ============================================================
+   Mobile refinements — logo and footer text scale.
+   Deliberately placed at the very end of the file (not inside
+   any earlier media-query block) so it comes after every other
+   rule for these selectors, including unconditioned ones added
+   in later edits. Source order decides ties at equal specificity,
+   and an earlier mobile override sitting before a later
+   unconditioned base rule is exactly what silently broke the
+   product-detail grid earlier — this avoids repeating that.
+   ============================================================ */
+@media (max-width: 640px) {
+  .logo-mark { height: 32px; }
+  .footer-grid .logo-mark { height: 30px; }
+  .footer-grid p,
+  .footer-grid a,
+  .footer-bottom { font-size: 0.85rem; }
+  .footer-grid h4 { font-size: 0.82rem; }
+  .hero-actions { gap: 12px; }
+  .lamp-toggle { display: none; }
+  .hero-photo-glow { display: none; }
+  .btn { padding: 11px 20px; font-size: 0.92rem; }
+  .spec-list li { font-size: 0.88rem; }
+}
+
+/* ============================================================
+   Defensive fix, sitewide: flex and grid children default to
+   min-width: auto, which refuses to shrink below the item's
+   unwrapped content width. That's the root cause behind every
+   mobile text-cutoff bug found so far (spec-list values, hero
+   copy) — the child was technically capable of wrapping, but
+   its own layout box wouldn't shrink enough to force it to.
+   Applied broadly here rather than patched one spot at a time.
+   ============================================================ */
+.product-detail .wrap > * { min-width: 0; }
+.footer-grid > div { min-width: 0; }
+.category-tiles > * { min-width: 0; }
+.also-like-item > div { min-width: 0; }
+.contact-method > div { min-width: 0; }
+.footer-bottom > span { min-width: 0; }
+.detail-gallery > * { min-width: 0; }
+.contact-grid > * { min-width: 0; }
+
+/* ============================================================
+   Mobile product gallery — a real swipeable carousel (native
+   touch scroll-snap, no JS needed for the swipe itself) instead
+   of a thumbnail strip sitting above the main photo. Modelled on
+   the pattern used by large, heavily-tested ecom apps: one photo
+   at a time, swipe between them, small dots show position.
+   Hidden on desktop, where the existing thumbnail + main-photo
+   layout stays exactly as it was.
+   ============================================================ */
+.mobile-gallery { display: none; }
+
+@media (max-width: 640px) {
+  .detail-gallery { display: none; }
+  .mobile-gallery { display: block; margin-bottom: 4px; }
+  .mobile-gallery-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 2px 22px 2px 22px;
+    aspect-ratio: 4 / 4.3;
+    scrollbar-width: none;
+  }
+  .mobile-gallery-track::-webkit-scrollbar { display: none; }
+  .mobile-gallery-slide {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    min-width: 0;
+  }
+  .mobile-gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mobile-gallery-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .mobile-gallery-dots .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--line);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .mobile-gallery-dots .dot.active {
+    background: var(--mahogany);
+    transform: scale(1.4);
+  }
+}
