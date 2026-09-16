@@ -33,51 +33,59 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/kazi-beige.html</loc>
+    <loc>https://syimi.co.ke/products/haven-yellowbeige.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/kazi-lightslategrey.html</loc>
+    <loc>https://syimi.co.ke/products/haven-darknavyblue.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/kazi-offwhite.html</loc>
+    <loc>https://syimi.co.ke/products/orimu-beige.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/lema-beige.html</loc>
+    <loc>https://syimi.co.ke/products/orimu-darknavyblue.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/lema-lightslategrey.html</loc>
+    <loc>https://syimi.co.ke/products/orimu-offwhite.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/lema-offwhite.html</loc>
+    <loc>https://syimi.co.ke/products/amasot-beige.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/milele-beige.html</loc>
+    <loc>https://syimi.co.ke/products/amasot-darknavyblue.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/milele-lightslategrey.html</loc>
+    <loc>https://syimi.co.ke/products/amasot-offwhite.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/milele-offwhite.html</loc>
+    <loc>https://syimi.co.ke/products/merutia-beige.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/taji-beige.html</loc>
+    <loc>https://syimi.co.ke/products/merutia-darknavyblue.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/taji-lightslategrey.html</loc>
+    <loc>https://syimi.co.ke/products/merutia-offwhite.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/taji-offwhite.html</loc>
+    <loc>https://syimi.co.ke/products/enguri-beige.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/products/enguri-darknavyblue.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/products/enguri-offwhite.html</loc>
     <priority>0.7</priority>
   </url>
 </urlset>
