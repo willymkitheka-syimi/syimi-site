@@ -262,7 +262,10 @@ section.tight { padding: 56px 0; }
   display: block;
 }
 
-.product-card .photo-placeholder { aspect-ratio: 1 / 1; min-height: 0; margin-bottom: 14px; }
+/* Lamp photos are tall portraits (mostly 2:3). A square box with
+   object-fit: cover was cutting off the top and base of every lamp. */
+.product-card .photo-placeholder { aspect-ratio: 2 / 3; min-height: 0; margin-bottom: 14px; }
+.product-card .photo-placeholder img { object-fit: contain; }
 
 .product-card .kind {
   font-size: 0.72rem;
@@ -511,15 +514,15 @@ form.enquiry textarea { min-height: 120px; resize: vertical; }
    ancestry here means there is nothing left to inherit. */
 .thumb-col {
   display: grid;
-  grid-template-rows: repeat(4, 72px);
-  gap: 10px;
+  grid-template-rows: repeat(4, 108px);
+  gap: 8px;
   width: 72px;
 }
 .thumb {
   display: block;
   box-sizing: border-box;
   width: 72px;
-  height: 72px;
+  height: 108px; /* 2:3 portrait, matches the lamp photos */
   margin: 0;
   padding: 0;
   border: 2px solid transparent;
@@ -531,12 +534,13 @@ form.enquiry textarea { min-height: 120px; resize: vertical; }
 .thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* just a selector — the full photo shows in the main viewer on click */
   display: block;
 }
 .thumb.active-thumb { border-color: var(--mahogany); }
 .thumb:hover:not(.active-thumb) { opacity: 0.85; }
-.main-photo .photo-placeholder { aspect-ratio: 4 / 5; min-height: 460px; }
+.main-photo .photo-placeholder { aspect-ratio: 2 / 3; min-height: 300px; max-height: 85vh; }
+.main-photo .photo-placeholder img { object-fit: contain; } /* never crop the lamp */
 
 .variant-group { margin-top: 26px; margin-bottom: 32px; }
 .variant-group .variant-label {
@@ -919,8 +923,8 @@ section.tight { padding: 44px 0; }
    is exactly what silently broke this on mobile. */
 @media (min-width: 901px) {
   .product-detail .wrap { grid-template-columns: 0.85fr 1fr 0.72fr; gap: 40px; }
-  .product-detail .photo-placeholder { aspect-ratio: 4 / 4.1; min-height: 300px; }
-  .main-photo .photo-placeholder { aspect-ratio: 4 / 4.1; min-height: 300px; }
+  .product-detail .photo-placeholder { aspect-ratio: 2 / 3; min-height: 300px; }
+  .main-photo .photo-placeholder { aspect-ratio: 2 / 3; min-height: 300px; }
 }
 .main-photo .photo-placeholder { overflow: hidden; cursor: zoom-in; }
 .main-photo .photo-placeholder img { transition: transform 0.5s ease; }
@@ -949,12 +953,12 @@ section.tight { padding: 44px 0; }
 .also-like-item:last-child { border-bottom: none; }
 .also-like-thumb {
   width: 56px;
-  height: 56px;
+  height: 84px; /* 2:3 portrait */
   flex-shrink: 0;
   border-radius: 2px;
   overflow: hidden;
 }
-.also-like-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.also-like-thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .also-like-item h4 { font-size: 0.85rem; margin: 0 0 3px; transition: color 0.2s ease; }
 .also-like-item p { font-size: 0.78rem; color: var(--mahogany); margin: 0; }
 .also-like-item:hover h4 { color: var(--mahogany); }
@@ -1106,7 +1110,9 @@ section.tight { padding: 44px 0; }
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     border-radius: 2px 22px 2px 22px;
-    aspect-ratio: 4 / 4.3;
+    aspect-ratio: 2 / 3;
+    max-height: 80vh;
+    background: var(--paper-dim);
     scrollbar-width: none;
   }
   .mobile-gallery-track::-webkit-scrollbar { display: none; }
@@ -1115,7 +1121,7 @@ section.tight { padding: 44px 0; }
     scroll-snap-align: start;
     min-width: 0;
   }
-  .mobile-gallery-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mobile-gallery-slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .mobile-gallery-dots {
     display: flex;
     justify-content: center;
