@@ -334,6 +334,28 @@ section.tight { padding: 56px 0; }
 .spec-list dt, .spec-list .label { color: rgba(28,22,19,0.6); flex-shrink: 0; }
 .spec-list li > span:last-child { min-width: 0; text-align: right; }
 
+/* "Learn more about this lamp" — collapsed description after the specs */
+.lamp-story { margin-top: 28px; }
+.lamp-story > summary {
+  list-style: none;
+  width: fit-content;
+  user-select: none;
+}
+.lamp-story > summary::-webkit-details-marker { display: none; }
+.lamp-story > summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.lamp-story[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.lamp-story > summary:focus-visible { outline: 2px solid var(--mahogany); outline-offset: 3px; }
+.lamp-story-body { padding-top: 20px; }
+.lamp-story-body p:first-child { margin-top: 0; }
+
 /* ---------- process / steps (legitimate sequence) ---------- */
 
 .steps {
@@ -516,7 +538,7 @@ form.enquiry textarea { min-height: 120px; resize: vertical; }
 .thumb:hover:not(.active-thumb) { opacity: 0.85; }
 .main-photo .photo-placeholder { aspect-ratio: 4 / 5; min-height: 460px; }
 
-.variant-group { margin-top: 26px; }
+.variant-group { margin-top: 26px; margin-bottom: 32px; }
 .variant-group .variant-label {
   display: block;
   font-size: 0.85rem;

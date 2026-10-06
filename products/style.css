@@ -516,7 +516,7 @@ form.enquiry textarea { min-height: 120px; resize: vertical; }
 .thumb:hover:not(.active-thumb) { opacity: 0.85; }
 .main-photo .photo-placeholder { aspect-ratio: 4 / 5; min-height: 460px; }
 
-.variant-group { margin-top: 26px; }
+.variant-group { margin-top: 26px; margin-bottom: 32px; }
 .variant-group .variant-label {
   display: block;
   font-size: 0.85rem;
