@@ -126,6 +126,50 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Floor lamp pages: "you might also like" shows 3 other random Haven
+// colours instead of the table lamps. Edit this list if a Haven colour
+// is ever added, renamed, or retired — nothing else needs to change.
+const HAVEN_VARIANTS = [
+  { slug: 'beige',          name: 'Haven — Beige' },
+  { slug: 'offwhite',       name: 'Haven — Off-white' },
+  { slug: 'lightslategrey', name: 'Haven — Light Slate Grey' },
+  { slug: 'darknavyblue',   name: 'Haven — Dark Navy Blue' },
+  { slug: 'yellowbeige',    name: 'Haven — Yellow Beige' }
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const panel = document.querySelector('.also-like-panel[data-also-like="haven"]');
+  if (!panel) return; // not a Haven product page
+
+  const current = panel.getAttribute('data-current-variant');
+  const others = HAVEN_VARIANTS.filter(v => v.slug !== current);
+
+  // Fisher–Yates shuffle, then take 3
+  for (let i = others.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [others[i], others[j]] = [others[j], others[i]];
+  }
+  const picks = others.slice(0, 3);
+
+  picks.forEach(variant => {
+    const item = document.createElement('a');
+    item.href = `haven-${variant.slug}.html`;
+    item.className = 'also-like-item';
+    item.innerHTML = `
+      <div class="also-like-thumb"><img src="../images/haven-${variant.slug}-main.jpg" alt="${variant.name}"></div>
+      <div>
+        <h4>${variant.name}</h4>
+        <p data-price-key="haven">KSh 12,500</p>
+      </div>`;
+    panel.appendChild(item);
+  });
+
+  // The 3 new <p data-price-key="haven"> elements were inserted after
+  // prices.js already ran once on page load, so ask it to format
+  // these specific new elements now (it also handles any live offer).
+  if (window.SYIMI_applyPricing) window.SYIMI_applyPricing(panel);
+});
+
 // Mobile swipe gallery: sync the active dot to whichever photo is scrolled into view
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.mobile-gallery').forEach(gallery => {
