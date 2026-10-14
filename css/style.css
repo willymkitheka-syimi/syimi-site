@@ -727,6 +727,7 @@ a.wordmark:hover { opacity: 0.8; }
   text-align: center;
 }
 .story-hero .wrap { max-width: 640px; }
+.story-hero .hero-actions { justify-content: center; margin-bottom: 0; }
 .story-eyebrow {
   font-style: italic;
   font-size: 0.95rem;

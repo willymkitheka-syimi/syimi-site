@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /paused-table-lamps/
 
 Sitemap: https://syimi.co.ke/sitemap.xml

@@ -55,19 +55,19 @@
 window.SYIMI_PRICES = {
   orimu: {
     price: 7500,
-    offer: { active: true, discountedPrice: 6499, deadline: "soon" }
+    offer: { active: false, discountedPrice: 6499, deadline: "soon" }
   },
   merutia: {
     price: 7500,
-    offer: { active: true, discountedPrice: 6499, deadline: "soon" }
+    offer: { active: false, discountedPrice: 6499, deadline: "soon" }
   },
   amasot: {
     price: 7500,
-    offer: { active: true, discountedPrice: 6499, deadline: "soon" }
+    offer: { active: false, discountedPrice: 6499, deadline: "soon" }
   },
   enguri: {
     price: 7500,
-    offer: { active: true, discountedPrice: 6499, deadline: "soon" }
+    offer: { active: false, discountedPrice: 6499, deadline: "soon" }
   },
   haven: {
     price: 12500,
