@@ -49,6 +49,8 @@
 
    Haven's 5 colours all read from the single "haven" entry below,
    so editing it once updates every Haven colour page together.
+
+   Penumbra has its own "penumbra" entry at the bottom of the list.
    ============================================================ */
 window.SYIMI_PRICES = {
   orimu: {
@@ -69,7 +71,11 @@ window.SYIMI_PRICES = {
   },
   haven: {
     price: 12500,
-    offer: { active: true, discountedPrice: 10499, deadline: "Soon" }
+    offer: { active: true, discountedPrice: 11400, deadline: "Soon" }
+  },
+  penumbra: {
+    price: 16000,
+    offer: { active: true, discountedPrice: 14900, deadline: "soon" }
   }
 };
 

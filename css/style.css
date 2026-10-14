@@ -358,6 +358,10 @@ section.tight { padding: 56px 0; }
 .lamp-story > summary:focus-visible { outline: 2px solid var(--mahogany); outline-offset: 3px; }
 .lamp-story-body { padding-top: 20px; }
 .lamp-story-body p:first-child { margin-top: 0; }
+.lamp-story-body h3 { font-size: 1rem; margin: 26px 0 10px; }
+.lamp-story-body ul { margin: 0 0 1em; padding-left: 1.25em; max-width: 62ch; }
+.lamp-story-body li { margin-bottom: 10px; line-height: 1.55; }
+.lamp-story-body li::marker { color: var(--rust); }
 
 /* ---------- process / steps (legitimate sequence) ---------- */
 
