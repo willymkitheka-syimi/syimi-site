@@ -126,48 +126,69 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Floor lamp pages: "you might also like" shows 3 other random Haven
-// colours instead of the table lamps. Edit this list if a Haven colour
-// is ever added, renamed, or retired — nothing else needs to change.
-const HAVEN_VARIANTS = [
-  { slug: 'beige',          name: 'Haven — Beige' },
-  { slug: 'offwhite',       name: 'Haven — Off-white' },
-  { slug: 'lightslategrey', name: 'Haven — Light Slate Grey' },
-  { slug: 'darknavyblue',   name: 'Haven — Dark Navy Blue' },
-  { slug: 'yellowbeige',    name: 'Haven — Yellow Beige' }
-];
+// Floor lamp pages: "you might also like" shows up to 3 other colours of the
+// same lamp (picked at random), instead of the table lamps. The panel's
+// data-also-like says which lamp family to use. Edit a list below if a
+// colour is ever added, renamed, or retired — nothing else needs to change.
+const ALSO_LIKE_FAMILIES = {
+  haven: {
+    priceKey: 'haven',
+    variants: [
+      { slug: 'beige',          name: 'Haven — Beige' },
+      { slug: 'offwhite',       name: 'Haven — Off-white' },
+      { slug: 'lightslategrey', name: 'Haven — Light Slate Grey' },
+      { slug: 'darknavyblue',   name: 'Haven — Dark Navy Blue' },
+      { slug: 'yellowbeige',    name: 'Haven — Yellow Beige' }
+    ]
+  },
+  penumbra: {
+    priceKey: 'penumbra',
+    variants: [
+      { slug: 'beige',    name: 'Penumbra — Beige' },
+      { slug: 'offwhite', name: 'Penumbra — Off-white' },
+      { slug: 'black',    name: 'Penumbra — Black' }
+    ]
+  }
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-  const panel = document.querySelector('.also-like-panel[data-also-like="haven"]');
-  if (!panel) return; // not a Haven product page
+  document.querySelectorAll('.also-like-panel[data-also-like]').forEach(panel => {
+    const familyKey = panel.getAttribute('data-also-like');
+    const family = ALSO_LIKE_FAMILIES[familyKey];
+    if (!family) return; // not a floor lamp page with colours
 
-  const current = panel.getAttribute('data-current-variant');
-  const others = HAVEN_VARIANTS.filter(v => v.slug !== current);
+    const current = panel.getAttribute('data-current-variant');
+    const others = family.variants.filter(v => v.slug !== current);
 
-  // Fisher–Yates shuffle, then take 3
-  for (let i = others.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [others[i], others[j]] = [others[j], others[i]];
-  }
-  const picks = others.slice(0, 3);
+    // Fisher–Yates shuffle, then take up to 3
+    for (let i = others.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [others[i], others[j]] = [others[j], others[i]];
+    }
+    const picks = others.slice(0, 3);
 
-  picks.forEach(variant => {
-    const item = document.createElement('a');
-    item.href = `haven-${variant.slug}.html`;
-    item.className = 'also-like-item';
-    item.innerHTML = `
-      <div class="also-like-thumb"><img src="../images/haven-${variant.slug}-main.jpg" alt="${variant.name}"></div>
-      <div>
-        <h4>${variant.name}</h4>
-        <p data-price-key="haven">KSh 12,500</p>
-      </div>`;
-    panel.appendChild(item);
+    // Price text comes from prices.js so it can never drift from it.
+    const entry = window.SYIMI_PRICES && window.SYIMI_PRICES[family.priceKey];
+    const priceText = entry ? 'KSh ' + Number(entry.price).toLocaleString('en-KE') : '';
+
+    picks.forEach(variant => {
+      const item = document.createElement('a');
+      item.href = `${familyKey}-${variant.slug}.html`;
+      item.className = 'also-like-item';
+      item.innerHTML = `
+        <div class="also-like-thumb"><img src="../images/${familyKey}-${variant.slug}-main.jpg" alt="${variant.name}"></div>
+        <div>
+          <h4>${variant.name}</h4>
+          <p data-price-key="${family.priceKey}">${priceText}</p>
+        </div>`;
+      panel.appendChild(item);
+    });
+
+    // These new <p data-price-key> elements were inserted after prices.js
+    // already ran once on page load, so ask it to format them now (it also
+    // handles any live offer).
+    if (window.SYIMI_applyPricing) window.SYIMI_applyPricing(panel);
   });
-
-  // The 3 new <p data-price-key="haven"> elements were inserted after
-  // prices.js already ran once on page load, so ask it to format
-  // these specific new elements now (it also handles any live offer).
-  if (window.SYIMI_applyPricing) window.SYIMI_applyPricing(panel);
 });
 
 // Mobile swipe gallery: sync the active dot to whichever photo is scrolled into view
