@@ -79,7 +79,7 @@ window.SYIMI_PRICES = {
   },
   umbra: {
     price: 11000,
-    offer: { active: true, discountedPrice: 9400, deadline: "soon" }
+    offer: { active: false, discountedPrice: 9400, deadline: "soon" }
   }
 };
 

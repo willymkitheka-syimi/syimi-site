@@ -908,6 +908,31 @@ a.wordmark:hover { opacity: 0.8; }
   .product-grid--four { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Floor lamp listing: tall portrait photos, so use narrower cards
+   (4 across on laptops/desktops, 3 on small laptops/tablets, 2 on
+   phones) and never let a frame grow taller than the window, so the
+   whole lamp is visible without scrolling. The photo is fitted inside
+   the frame (object-fit: contain), so nothing is ever cropped. */
+/* Listing page heading: smaller, with less space above and below so the lamps sit higher */
+section.tight.listing-section { padding-top: 28px; }
+.listing-section .section-head { margin-bottom: 14px; }
+.listing-title { font-size: clamp(1.25rem, 1.9vw, 1.6rem); margin: 0; }
+
+.product-grid--tall {
+  grid-template-columns: repeat(4, minmax(0, 235px));
+  justify-content: space-between;
+}
+.product-grid--tall .product-card .photo-placeholder {
+  width: 100%;
+  max-height: max(300px, calc(100vh - 210px));
+}
+@media (max-width: 1100px) {
+  .product-grid--tall { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 780px) {
+  .product-grid--tall { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
+}
+
 /* Product card hover: image zoom, soft lift, title picks up brand color */
 .product-card .photo-placeholder { overflow: hidden; transition: box-shadow 0.3s ease; }
 .product-card .photo-placeholder img { transition: transform 0.6s ease; }
