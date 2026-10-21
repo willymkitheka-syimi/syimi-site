@@ -56,4 +56,24 @@
     <loc>https://syimi.co.ke/products/umbra-beige.html</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://syimi.co.ke/refunds-returns.html</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/delivery.html</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/warranty.html</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/terms.html</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/privacy.html</loc>
+    <priority>0.3</priority>
+  </url>
 </urlset>
