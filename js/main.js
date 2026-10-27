@@ -13,8 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const productName = el.getAttribute('data-whatsapp') || '';
     const price = el.getAttribute('data-price') || '';
     let msg;
+    const promoLive = window.SYIMI_PROMO && window.SYIMI_PROMO.isLive();
     if (productName && price) {
-      msg = `Hi SYIMI, I would like to order 1 piece of this ${productName}, ${price}. Kindly send the final quotation with the delivery cost included and when it can be delivered.`;
+      // While the offer in js/promo.js is live, the order message mentions the
+      // offer code; otherwise the normal message is used.
+      msg = promoLive
+        ? window.SYIMI_PROMO.orderMessage(productName, price)
+        : `Hi SYIMI, I would like to order 1 piece of this ${productName}, ${price}. Kindly send the final quotation with the delivery cost included and when it can be delivered.`;
     } else if (productName) {
       msg = `Hi SYIMI, I'd like to ask about the ${productName}.`;
     } else {
@@ -68,7 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = form.querySelector('#name')?.value || '';
       const lamp = form.querySelector('#lamp')?.value || '';
       const message = form.querySelector('#message')?.value || '';
-      const text = `Hi SYIMI, I'm ${name}. Regarding: ${lamp}. ${message}`;
+      const promoNote = (window.SYIMI_PROMO && window.SYIMI_PROMO.isLive()) ? ' ' + window.SYIMI_PROMO.formNote() : '';
+      const text = `Hi SYIMI, I'm ${name}. Regarding: ${lamp}. ${message}${promoNote}`;
       window.open(`https://wa.me/${SYIMI_WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
     });
   }

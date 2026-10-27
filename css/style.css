@@ -1201,3 +1201,45 @@ section.tight { padding: 44px 0; }
   .footer-legal { gap: 8px 18px; }
   .footer-legal a { font-size: 0.82rem; }
 }
+
+
+/* ---------- promotion: top banner, line under the price, contact section ---------- */
+.promo-banner {
+  background: var(--mahogany);
+  color: var(--paper);
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  padding: 8px 20px;
+}
+.promo-banner a { color: var(--paper); text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+.promo-banner a:hover { color: #fff; }
+@media (max-width: 640px) {
+  .promo-banner { font-size: 0.76rem; padding: 7px 14px; }
+}
+
+.promo-line {
+  margin: 8px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--mahogany);
+  font-weight: 500;
+}
+.promo-line[hidden] { display: none; }
+
+.promo-panel {
+  background: var(--paper-dim);
+  border-left: 3px solid var(--rust);
+  border-radius: 2px;
+  padding: 20px 22px;
+  margin-bottom: 30px;
+  max-width: 480px;
+  scroll-margin-top: 100px;
+}
+.promo-panel[hidden] { display: none; }
+.promo-panel h3 { font-size: 1.1rem; margin: 0 0 10px; color: var(--mahogany); }
+.promo-panel p { margin: 0 0 10px; font-size: 0.93rem; line-height: 1.6; max-width: none; }
+.promo-panel .promo-panel-title { margin: 14px 0 6px; font-weight: 600; font-size: 0.88rem; }
+.promo-panel ol { margin: 0 0 6px; padding-left: 1.25em; }
+.promo-panel li { margin-bottom: 4px; font-size: 0.93rem; line-height: 1.55; }
+.promo-panel li::marker { color: var(--rust); font-weight: 600; }
