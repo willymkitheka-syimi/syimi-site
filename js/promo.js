@@ -24,7 +24,7 @@ window.SYIMI_PROMO = {
   startsAt: null,
   endsAt: "2026-11-03T23:59:59+03:00",   // ends 3 Nov 2026, 11:59pm
   code: "1K",
-  limit: 8,                              // only the first 5 orders (use null for no limit)
+  limit: 5,                              // only the first 5 orders (use null for no limit)
   depositPercent: 50,
   freeDeliveryAreas: "Nairobi, Kiambu and Thika"
 };
@@ -87,21 +87,26 @@ window.SYIMI_PROMO = {
 
     contactHtml: function () {
       return "" +
+        "<div class=\"promo-intro\">" +
         "<h3>Celebrating 1,000 Instagram followers</h3>" +
-        "<p>Thank you for helping us reach 1,000 followers. " +
-        (P.endsAt ? "Until " + endLong() + ", " : "") + who() +
+        "<p>" + who().charAt(0).toUpperCase() + who().slice(1) +
         " come with free delivery and home setup in " + P.freeDeliveryAreas +
-        ". Other areas are quoted on request." +
-        (P.limit ? " Once the first " + P.limit + " orders are taken, the offer closes, even before the end date." : "") +
-        "</p>" +
+        ". Other areas are quoted on request.</p>" +
+        "<p class=\"promo-small\">" + (P.endsAt ? "Ends " + endLong() : "") +
+        (P.limit ? (P.endsAt ? ", or sooner if" : "Closes once") + " the first " + P.limit + " orders are taken." : ".") + "</p>" +
+        "</div>" +
+        "<div>" +
         "<p class=\"promo-panel-title\">How to order</p>" +
         "<ol>" +
-        "<li>Choose your lamp and tap <strong>Order on WhatsApp</strong>, or send us a message with the form below.</li>" +
-        "<li>Mention the code <strong>" + P.code + "</strong> in your message.</li>" +
-        "<li>We confirm your delivery area and day, and tell you how to pay.</li>" +
+        "<li>Choose a lamp and tap <strong>Order on WhatsApp</strong>, or use the form below.</li>" +
+        "<li>Mention the code <strong>" + P.code + "</strong>.</li>" +
+        "<li>We confirm your area and delivery day, and tell you how to pay.</li>" +
         "</ol>" +
+        "</div>" +
+        "<div>" +
         "<p class=\"promo-panel-title\">Book with a deposit</p>" +
-        "<p>Pay a " + P.depositPercent + "% M-Pesa deposit to book your lamp, and pay the rest on delivery.</p>";
+        "<p>Pay a " + P.depositPercent + "% M-Pesa deposit to book your lamp, and pay the rest on delivery.</p>" +
+        "</div>";
     },
 
     // WhatsApp order message on lamp pages while the offer is live.

@@ -1228,18 +1228,32 @@ section.tight { padding: 44px 0; }
 .promo-line[hidden] { display: none; }
 
 .promo-panel {
+  display: grid;
+  grid-template-columns: 1.3fr 1.3fr 1fr;
+  gap: 8px 36px;
+  align-items: start;
   background: var(--paper-dim);
   border-left: 3px solid var(--rust);
   border-radius: 2px;
-  padding: 20px 22px;
-  margin-bottom: 30px;
-  max-width: 480px;
+  padding: 20px 26px;
+  margin: 0 0 32px;
   scroll-margin-top: 100px;
 }
 .promo-panel[hidden] { display: none; }
-.promo-panel h3 { font-size: 1.1rem; margin: 0 0 10px; color: var(--mahogany); }
-.promo-panel p { margin: 0 0 10px; font-size: 0.93rem; line-height: 1.6; max-width: none; }
-.promo-panel .promo-panel-title { margin: 14px 0 6px; font-weight: 600; font-size: 0.88rem; }
-.promo-panel ol { margin: 0 0 6px; padding-left: 1.25em; }
-.promo-panel li { margin-bottom: 4px; font-size: 0.93rem; line-height: 1.55; }
+.promo-panel h3 { font-size: 1.05rem; margin: 0 0 6px; color: var(--mahogany); }
+.promo-panel p { margin: 0 0 6px; font-size: 0.9rem; line-height: 1.55; max-width: none; }
+.promo-panel .promo-small { font-size: 0.8rem; color: rgba(28, 22, 19, 0.65); margin: 0; }
+.promo-panel .promo-panel-title { margin: 0 0 6px; font-weight: 600; font-size: 0.88rem; color: var(--ink); }
+.promo-panel ol { margin: 0; padding-left: 1.2em; }
+.promo-panel li { margin-bottom: 3px; font-size: 0.9rem; line-height: 1.5; }
 .promo-panel li::marker { color: var(--rust); font-weight: 600; }
+@media (max-width: 900px) {
+  .promo-panel { grid-template-columns: 1fr; gap: 14px; padding: 18px 20px; margin-bottom: 26px; }
+}
+
+/* ---------- contact page layout ---------- */
+.contact-head { margin-bottom: 22px; }
+.contact-head h1 { font-size: clamp(1.6rem, 2.6vw, 2.15rem); margin-bottom: 6px; }
+.contact-head .lede { margin: 0; max-width: none; }
+.contact-grid { align-items: start; gap: 48px; }
+@media (max-width: 900px) { .contact-grid { gap: 32px; } }
