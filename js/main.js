@@ -142,7 +142,7 @@ const ALSO_LIKE_FAMILIES = {
     variants: [
       { slug: 'beige',          name: 'Haven — Beige' },
       { slug: 'offwhite',       name: 'Haven — Off-white' },
-      { slug: 'lightslategrey', name: 'Haven — Light Slate Grey' },
+      { slug: 'lightslategrey', name: 'Haven — Light slate grey' },
       { slug: 'darknavyblue',   name: 'Haven — Dark Navy Blue' },
       { slug: 'yellowbeige',    name: 'Haven — Yellow Beige' }
     ]

@@ -168,7 +168,7 @@ window.SYIMI_PRICES = {
       var data = JSON.parse(script.textContent);
       if (data.offers) {
         data.offers.price = String(eff.discounted != null ? eff.discounted : eff.regular);
-        if (eff.deadline) {
+        if (eff.deadline && parsedDeadlineMs(eff.deadline) != null) {
           data.offers.priceValidUntil = eff.deadline.slice(0, 10);
         } else {
           delete data.offers.priceValidUntil;
