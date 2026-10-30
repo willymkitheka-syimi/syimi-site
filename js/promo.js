@@ -88,7 +88,7 @@ window.SYIMI_PROMO = {
   var W = {
     // Banner: the sentence, then the live countdown (added in render below).
     banner: function () {
-      return "Celebrating 1,000 Instagram followers: free delivery and home setup for " + who() + ". " +
+      return "Celebrating 1,000+ Instagram followers: free delivery and home setup for " + who() + ". " +
         "Mention code " + P.code + (P.endsAt ? " · " : ".");
     },
     bannerLink: "See details",
@@ -102,7 +102,7 @@ window.SYIMI_PROMO = {
     contactHtml: function () {
       return "" +
         "<div class=\"promo-intro\">" +
-          "<h3>Celebrating 1,000 Instagram followers</h3>" +
+          "<h3>Celebrating 1,000+ Instagram followers</h3>" +
           "<p>" + who().charAt(0).toUpperCase() + who().slice(1) +
           " come with free delivery and home setup in " + P.freeDeliveryAreas +
           ". Other areas are quoted on request.</p>" +
