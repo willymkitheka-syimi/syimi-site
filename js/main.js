@@ -143,8 +143,8 @@ const ALSO_LIKE_FAMILIES = {
   haven: {
     priceKey: 'haven',
     variants: [
-      { slug: 'beige',          name: 'Haven — Beige' },
-      { slug: 'offwhite',       name: 'Haven — Off-white' },
+      { slug: 'beige',          name: 'Haven — Beige', favorite: true },
+      { slug: 'offwhite',       name: 'Haven — Off-white', favorite: true },
       { slug: 'lightslategrey', name: 'Haven — Light slate grey' },
       { slug: 'darknavyblue',   name: 'Haven — Dark Navy Blue' },
       { slug: 'yellowbeige',    name: 'Haven — Yellow Beige' }
@@ -188,11 +188,15 @@ document.addEventListener('DOMContentLoaded', () => {
       item.href = `${familyKey}-${variant.slug}.html`;
       item.className = 'also-like-item';
       item.setAttribute('data-lamp', `${familyKey}-${variant.slug}`);
+      // Customer favorite: set favorite: true on a colour in the list above
+      const favTag = variant.favorite
+        ? '<span class="card-tags card-tags--inline"><span class="card-tag card-tag--fav">Customer favorite</span></span>' : '';
       item.innerHTML = `
         <div class="also-like-thumb"><img src="../images/${familyKey}-${variant.slug}-main.jpg" alt="${variant.name}"></div>
         <div>
           <h4>${variant.name}</h4>
           <p data-price-key="${family.priceKey}">${priceText}</p>
+          ${favTag}
         </div>`;
       panel.appendChild(item);
     });

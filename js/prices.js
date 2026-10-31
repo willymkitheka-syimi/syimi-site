@@ -71,7 +71,7 @@ window.SYIMI_PRICES = {
   },
   haven: {
     price: 12500,
-    offer: { active: true, discountedPrice: 11400, deadline: "Soon" }
+    offer: { active: false, discountedPrice: 11400, deadline: "Soon" }
   },
   penumbra: {
     price: 16000,

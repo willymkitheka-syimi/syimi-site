@@ -1255,9 +1255,32 @@ section.tight.listing-section { padding-top: 28px; }
   transform: rotate(45deg);
   flex-shrink: 0;
 }
+/* "Customer favorite": light linen tag with a brass diamond, so it reads differently from the dark "One of one" tag */
+.card-tag--fav {
+  background: var(--paper);
+  color: var(--mahogany);
+  border-color: var(--brass);
+}
+.card-tag--fav::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--brass);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
 .card-tag--sold { background: var(--ink); border-color: rgba(241, 236, 225, 0.35); padding-left: 12px; }
 .card-tag--inline { margin-left: 10px; vertical-align: middle; }
 .card-tags--inline .card-tag { font-size: 0.6rem; padding: 5px 10px 5px 8px; box-shadow: none; border-color: transparent; }
+.card-tags--inline .card-tag--fav { border-color: var(--brass); }
+/* two-column phone grid: the cards are narrow, so the tags shrink to stay inside the photo */
+@media (max-width: 780px) {
+  .card-tags:not(.card-tags--inline) { top: 8px; left: 8px; max-width: calc(100% - 16px); }
+  .card-tags:not(.card-tags--inline) .card-tag { font-size: 0.56rem; letter-spacing: 0.07em; gap: 5px; padding: 6px 8px 6px 7px; }
+}
+@media (max-width: 360px) {
+  .card-tags:not(.card-tags--inline) .card-tag { font-size: 0.5rem; letter-spacing: 0.03em; gap: 4px; padding: 5px 6px; }
+}
 
 .edition-note { margin: -8px 0 14px; font-size: 0.9rem; line-height: 1.55; }
 .edition-note span { display: block; }
