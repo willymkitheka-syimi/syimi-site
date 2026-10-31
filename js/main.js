@@ -14,7 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const price = el.getAttribute('data-price') || '';
     let msg;
     const promoLive = window.SYIMI_PROMO && window.SYIMI_PROMO.isLive();
-    if (productName && price) {
+    const customMessage = el.getAttribute('data-whatsapp-message');
+    if (customMessage) {
+      msg = customMessage; // e.g. the "Join the waitlist" button on a sold lamp
+    } else if (productName && price) {
       // While the offer in js/promo.js is live, the order message mentions the
       // offer code; otherwise the normal message is used.
       msg = promoLive
@@ -171,6 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const j = Math.floor(Math.random() * (i + 1));
       [others[i], others[j]] = [others[j], others[i]];
     }
+    // Colours that are still available come first (js/availability.js)
+    const isSold = window.SYIMI_isSold || (() => false);
+    others.sort((a, b) => isSold(`${familyKey}-${a.slug}`) - isSold(`${familyKey}-${b.slug}`));
     const picks = others.slice(0, 3);
 
     // Price text comes from prices.js so it can never drift from it.
@@ -181,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const item = document.createElement('a');
       item.href = `${familyKey}-${variant.slug}.html`;
       item.className = 'also-like-item';
+      item.setAttribute('data-lamp', `${familyKey}-${variant.slug}`);
       item.innerHTML = `
         <div class="also-like-thumb"><img src="../images/${familyKey}-${variant.slug}-main.jpg" alt="${variant.name}"></div>
         <div>
@@ -194,6 +201,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // already ran once on page load, so ask it to format them now (it also
     // handles any live offer).
     if (window.SYIMI_applyPricing) window.SYIMI_applyPricing(panel);
+    // Same for the One of one / Sold tags on the new list items.
+    if (window.SYIMI_applyAvailability) window.SYIMI_applyAvailability(panel);
   });
 });
 

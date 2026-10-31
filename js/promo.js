@@ -93,8 +93,9 @@ window.SYIMI_PROMO = {
     },
     bannerLink: "See details",
 
-    productLine: function () {
-      return (P.limit ? "First " + P.limit + " orders only: free" : "Free") +
+    // noLimit: leave out "First 5 orders only" (used on the Penumbra pages)
+    productLine: function (noLimit) {
+      return (P.limit && !noLimit ? "First " + P.limit + " orders only: free" : "Free") +
         " delivery and home setup in " + P.freeDeliveryAreas + ". Mention code " + P.code +
         " when you order." + (P.endsAt ? " " + countdownHtml() : "");
     },
@@ -171,9 +172,13 @@ window.SYIMI_PROMO = {
     }
 
     // One small line under the price on lamp pages
+    // (hidden on a lamp that is marked Sold in js/availability.js)
     document.querySelectorAll("[data-promo-line]").forEach(function (el) {
-      el.innerHTML = live ? W.productLine() : "";
-      el.hidden = !live;
+      var lamp = el.closest("[data-lamp]");
+      var sold = !!(lamp && window.SYIMI_isSold && window.SYIMI_isSold(lamp.getAttribute("data-lamp")));
+      var show = live && !sold;
+      el.innerHTML = show ? W.productLine(el.hasAttribute("data-promo-nolimit")) : "";
+      el.hidden = !show;
     });
 
     // Section on the Contact page
