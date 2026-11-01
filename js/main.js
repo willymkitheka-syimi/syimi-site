@@ -188,9 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
       item.href = `${familyKey}-${variant.slug}.html`;
       item.className = 'also-like-item';
       item.setAttribute('data-lamp', `${familyKey}-${variant.slug}`);
-      // Customer favorite: set favorite: true on a colour in the list above
+      // Most chosen: set favorite: true on a colour in the list above
       const favTag = variant.favorite
-        ? '<span class="card-tags card-tags--inline"><span class="card-tag card-tag--fav">Customer favorite</span></span>' : '';
+        ? '<span class="card-tags card-tags--inline"><span class="card-tag card-tag--fav">Most chosen</span></span>' : '';
       item.innerHTML = `
         <div class="also-like-thumb"><img src="../images/${familyKey}-${variant.slug}-main.jpg" alt="${variant.name}"></div>
         <div>
