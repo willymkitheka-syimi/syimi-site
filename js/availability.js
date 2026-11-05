@@ -9,7 +9,7 @@
      - a small "Sold" tag on its cards, its page and the
        "You might also like" list
      - the Order on WhatsApp button becomes a disabled "Sold" button
-     - the free delivery offer line is hidden
+     - the delivery and payment lines under the price are hidden
      - the page says the color has been taken, with a "See available
        colors" button and a "Join the waitlist" button (WhatsApp)
      - the page stays live with all its photos
@@ -102,8 +102,12 @@ window.SYIMI_AVAILABILITY = {
       var sold = el("button", "btn btn-primary btn-sold", W.sold);
       sold.type = "button";
       sold.disabled = true;
+      sold.setAttribute("aria-disabled", "true");
       btn.parentNode.replaceChild(sold, btn);
     });
+
+    // The delivery and payment lines are only for lamps you can order
+    meta.querySelectorAll(".order-terms").forEach(function (t) { t.hidden = true; });
 
     // The mobile order bar has nothing to order
     document.querySelectorAll(".sticky-order-bar").forEach(function (bar) { bar.hidden = true; });
