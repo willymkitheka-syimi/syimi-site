@@ -1,11 +1,13 @@
 /* ============================================================
    SYIMI ORDER DIALOG
 
-   When someone taps "Order on WhatsApp" on a product page, a small dialog
-   collects the basics (delivery area, delivery day and time, how they want
-   to pay), tells them whether delivery is free, and then opens WhatsApp
-   with the order message ready to send. That way you don't need a round
-   of questions before you can confirm an order.
+   When someone taps "Order on WhatsApp" on a product page, a compact
+   dialog collects the basics (delivery area, delivery day and time, how
+   they want to pay), shows what they pay now and what is free, and then
+   opens WhatsApp with the order message ready to send. That way you
+   don't need a round of questions before you can confirm an order.
+   On a phone it slides up from the bottom; on a laptop it sits in the
+   middle of the page.
 
    Setup:   <script src="/js/whatsapp-order.js" defer></script> before </body>
             on every product page.
@@ -32,6 +34,7 @@
 
   var FREE_DELIVERY_AREA = 'Nairobi';  // free delivery applies here
   var DEPOSIT_PERCENT = 50;
+  var DAYS_AHEAD = 21;                 // how many days the delivery day list shows
   var FALLBACK_PHONE = '254726796860'; // only used if the button has no wa.me link
 
   var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -40,31 +43,35 @@
 
   /* ---------------- WORDING — edit the sentences here ---------------- */
   var W = {
-    title: 'Where and when should we deliver?',
+    title: 'Delivery and payment',
+    close: 'Close',
     zoneLegend: 'Delivery location',
     zoneIn: 'Within ' + FREE_DELIVERY_AREA,
     zoneOut: 'Outside ' + FREE_DELIVERY_AREA,
     areaLabel: 'Area or estate',
     areaPlaceholder: 'For example, Kilimani',
     areaError: 'Enter your area or estate so we can confirm delivery.',
-    dateLabel: 'Preferred delivery day',
-    datePlaceholder: 'For example, Saturday 7 November',
-    dateError: 'Choose the day you would like your lamp delivered.',
-    dateOldError: 'Choose a day from tomorrow.',
+    dayLabel: 'Preferred delivery day',
+    dayPlaceholder: 'Choose a day',
+    tomorrow: 'Tomorrow',
+    dayError: 'Choose the day you would like your lamp delivered.',
     timeLabel: 'Time of day',
     timeAny: 'Any time',
     timeMorning: 'Morning',
     timeAfternoon: 'Afternoon',
-    payLabel: 'Payment',
-    payFull: 'Pay in full by M-Pesa',
-    payDeposit: DEPOSIT_PERCENT + '% deposit, balance on delivery',
-    noteIn: 'Free delivery within ' + FREE_DELIVERY_AREA + '.',
-    noteOut: 'We will quote the delivery cost and the earliest delivery date before you pay.',
-    noteDeposit: function (deposit, balance) {
-      return 'Deposit ' + deposit + ', balance ' + balance + ' on delivery.';
-    },
+    payLegend: 'Payment',
+    payFull: 'Pay in full',
+    payFullSub: 'by M-Pesa',
+    payDeposit: DEPOSIT_PERCENT + '% deposit',
+    payDepositSub: 'Balance on delivery',
+    sumDeliveryIn: 'Free delivery',
+    sumDeliveryOut: 'Delivery quoted before you pay',
+    sumPayNow: 'Pay now',
+    sumPayNowFull: 'in full',
+    sumPayNowDeposit: DEPOSIT_PERCENT + '% deposit',
+    sumBalance: 'On delivery',
     submit: 'Continue to WhatsApp',
-    cancel: 'Cancel',
+    reassure: 'Nothing is charged here. We confirm on WhatsApp.',
 
     // The message that opens in WhatsApp.
     message: function (o) {
@@ -90,31 +97,77 @@
 
   /* ---------------- styles (the site's own colors, fonts and buttons) ---------------- */
   var css =
-    '.sy-dialog{border:0;padding:0;border-radius:2px 18px 2px 18px;background:var(--paper,#f1ece1);color:var(--ink,#1c1613);' +
-      'width:min(92vw,420px);max-height:92vh;font-family:var(--font-body,inherit);box-shadow:0 18px 50px rgba(28,22,19,.35)}' +
+    // the box: centered on a laptop, a sheet from the bottom on a phone
+    '.sy-dialog{border:0;padding:0;background:var(--paper,#f1ece1);color:var(--ink,#1c1613);' +
+      'width:min(92vw,392px);max-width:none;max-height:min(88vh,620px);overflow:hidden;' +
+      'border-radius:2px 18px 2px 18px;font-family:var(--font-body,inherit);box-shadow:0 22px 60px rgba(28,22,19,.4)}' +
+    '.sy-dialog[open]{display:flex;flex-direction:column;animation:sy-in .2s ease-out}' +
     '.sy-dialog::backdrop{background:rgba(28,22,19,.55)}' +
-    '.sy-form{padding:26px 24px 22px;display:grid;gap:18px}' +
-    '.sy-title{margin:0;font-family:var(--font-display,Georgia,serif);font-size:1.45rem;font-weight:500;line-height:1.2}' +
-    '.sy-sub{margin:-8px 0 0;font-size:.95rem;opacity:.8}' +
-    '.sy-field{display:grid;gap:8px;border:0;padding:0;margin:0;min-width:0}' +
+    '@keyframes sy-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}' +
+    '@keyframes sy-up{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}' +
+    '@media (max-width:560px){' +
+      '.sy-dialog{width:100%;margin:auto 0 0 0;max-height:90vh;max-height:90dvh;border-radius:18px 18px 0 0}' +
+      '.sy-dialog[open]{animation:sy-up .24s ease-out}' +
+    '}' +
+    '@media (prefers-reduced-motion:reduce){.sy-dialog[open]{animation:none}}' +
+    '.sy-form{display:flex;flex-direction:column;min-height:0;flex:1 1 auto;margin:0}' +
+
+    // header: lamp photo, title, lamp name and price, close
+    '.sy-head{display:flex;align-items:center;gap:12px;padding:14px 14px 12px 20px;border-bottom:1px solid var(--line,rgba(28,22,19,.14))}' +
+    '.sy-thumb{width:40px;height:56px;flex:0 0 auto;object-fit:cover;border-radius:2px 8px 2px 8px;background:var(--paper-dim,#e8dfd0)}' +
+    '.sy-head-text{flex:1 1 auto;min-width:0}' +
+    '.sy-title{margin:0;font-family:var(--font-display,Georgia,serif);font-size:1.12rem;font-weight:500;line-height:1.2}' +
+    '.sy-sub{margin:3px 0 0;font-size:.8rem;color:rgba(28,22,19,.68);line-height:1.3}' +
+    '.sy-x{flex:0 0 auto;width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;' +
+      'color:var(--ink,#1c1613);cursor:pointer;padding:0}' +
+    '.sy-x:hover{background:rgba(28,22,19,.07)}' +
+    '.sy-x svg{width:16px;height:16px}' +
+
+    // body (scrolls on a short screen) and the sticky footer
+    '.sy-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 20px 14px;display:grid;gap:11px;align-content:start}' +
+    '.sy-foot{padding:10px 20px 14px;border-top:1px solid var(--line,rgba(28,22,19,.14));background:var(--paper,#f1ece1);display:grid;gap:8px}' +
+    '.sy-foot .btn{width:100%;justify-content:center;font:inherit;font-size:.92rem;font-weight:500;padding:12px 20px}' +
+    '.sy-reassure{margin:0;text-align:center;font-size:.72rem;line-height:1.4;color:rgba(28,22,19,.6)}' +
+
+    // fields
+    '.sy-field{display:grid;gap:6px;border:0;padding:0;margin:0;min-width:0}' +
     '.sy-field[hidden]{display:none}' +
-    '.sy-field legend,.sy-lab{font-size:.9rem;font-weight:600;padding:0}' +
-    '.sy-row{display:grid;grid-template-columns:1.25fr 1fr;gap:10px}' +
-    '.sy-row>div{display:grid;gap:8px;min-width:0}' +
-    '.sy-choice{display:flex;gap:10px;align-items:center;padding:11px 12px;border:1px solid var(--line,rgba(28,22,19,.14));' +
-      'border-radius:2px;cursor:pointer;font-size:.95rem}' +
-    '.sy-choice input{accent-color:var(--mahogany,#6e3126);margin:0}' +
-    '.sy-choice.is-on{border-color:var(--mahogany,#6e3126);background:rgba(110,49,38,.07)}' +
-    '.sy-input{font:inherit;font-size:1rem;padding:12px 14px;border:1px solid var(--line,rgba(28,22,19,.14));border-radius:2px;' +
-      'background:#fff;color:inherit;width:100%;box-sizing:border-box;min-height:48px}' +
+    '.sy-lab,.sy-legend{font-size:.78rem;font-weight:600;padding:0;color:rgba(28,22,19,.78)}' +
+    '.sy-visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}' +
+    '.sy-input{font:inherit;font-size:.9rem;padding:0 12px;border:1px solid var(--line,rgba(28,22,19,.14));border-radius:2px;' +
+      'background:#fff;color:inherit;width:100%;box-sizing:border-box;height:40px}' +
+    '.sy-input::placeholder{color:rgba(28,22,19,.45)}' +
     '.sy-input[aria-invalid="true"]{border-color:#a12a1a}' +
-    '.sy-note{margin:0;min-height:2.6em;font-size:.92rem;color:var(--mahogany,#6e3126);font-weight:500}' +
-    '.sy-note span{display:block}' +
-    '.sy-error{margin:0;font-size:.85rem;color:#a12a1a;min-height:1.1em}' +
-    '.sy-actions{display:flex;gap:10px;flex-wrap:wrap}' +
-    '.sy-actions .btn{justify-content:center;font:inherit;font-size:.9rem;font-weight:500;padding:12px 20px}' +
-    '.sy-actions .btn-primary{flex:1 1 auto}' +
+    'select.sy-input{padding-right:8px}' +
+    '.sy-row{display:grid;grid-template-columns:1.5fr 1fr;gap:8px}' +
+    '.sy-row>div{display:grid;gap:6px;min-width:0}' +
+    '.sy-error{margin:0;font-size:.76rem;color:#a12a1a;line-height:1.3}' +
+    '.sy-error:empty{display:none}' +
+
+    // the two-choice cards (location, payment)
+    '.sy-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}' +
+    '.sy-opt{position:relative;display:flex;align-items:center;gap:9px;padding:8px 11px;min-height:40px;box-sizing:border-box;' +
+      'border:1px solid var(--line,rgba(28,22,19,.14));border-radius:2px;background:#fff;cursor:pointer;font-size:.84rem;line-height:1.25}' +
+    '.sy-opt input{position:absolute;opacity:0;pointer-events:none}' +
+    '.sy-dot{flex:0 0 auto;width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(28,22,19,.35);box-sizing:border-box;background:#fff}' +
+    '.sy-opt.is-on{border-color:var(--mahogany,#6e3126);background:rgba(110,49,38,.06)}' +
+    '.sy-opt.is-on .sy-dot{border-color:var(--mahogany,#6e3126);background:radial-gradient(circle,var(--mahogany,#6e3126) 0 38%,#fff 42%)}' +
+    '.sy-opt:focus-within{outline:2px solid var(--mahogany,#6e3126);outline-offset:2px}' +
+    '.sy-opt-text{display:grid;gap:1px;min-width:0}' +
+    '.sy-opt-text strong{font-weight:600}' +
+    '.sy-opt-text small{font-size:.72rem;color:rgba(28,22,19,.62)}' +
+
+    // what you pay: one short line of facts
+    '.sy-sum{background:var(--paper-dim,#e8dfd0);border-radius:2px 12px 2px 12px;padding:9px 13px;margin:0;' +
+      'display:flex;flex-wrap:wrap;gap:3px 16px;font-size:.8rem;line-height:1.35;color:rgba(28,22,19,.72)}' +
+    '.sy-sum span{white-space:nowrap}' +
+    '.sy-sum span b{font-weight:600;color:var(--ink,#1c1613)}' +
+    '.sy-sum .is-free b{color:var(--mahogany,#6e3126)}' +
+    '.sy-sum .is-pay b{color:var(--mahogany,#6e3126);font-size:.92rem}' +
+
     '.sy-dialog :focus-visible{outline:2px solid var(--mahogany,#6e3126);outline-offset:2px}' +
+    // phones that zoom the page when a field smaller than 16px is tapped (iPhone)
+    '@supports (-webkit-touch-callout:none){.sy-input{font-size:16px}}' +
     'html.sy-locked{overflow:hidden}';
 
   /* ---------------- helpers ---------------- */
@@ -127,21 +180,17 @@
     return m ? parseInt(m[0].replace(/,/g, ''), 10) : null;
   }
   function ksh(n) { return 'KSh ' + Number(n).toLocaleString('en-KE'); }
-  function pad(n) { return (n < 10 ? '0' : '') + n; }
-  function isoOf(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
-  function tomorrowIso() { var d = new Date(); d.setDate(d.getDate() + 1); return isoOf(d); }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; });
+  }
 
-  // "2026-11-07" -> "Saturday 7 November" (built by hand so the weekday is
-  // always right and never shifted by the visitor's time zone)
-  function longDate(iso) {
-    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
-    if (!m) return '';
-    var d = new Date(+m[1], +m[2] - 1, +m[3]);
+  // "Saturday 7 November" (built by hand so the weekday is always right)
+  function longDate(d) {
     return DAYS[d.getDay()] + ' ' + d.getDate() + ' ' + MONTHS[d.getMonth()];
   }
 
   /* ---------------- the dialog (built the first time it is needed) ---------------- */
-  var dlg, form, areaInput, dateInput, dateField, errorEl, dateErrorEl, noteEl, productEl, dateIsNative;
+  var dlg, form, areaInput, dayInput, dayField, errorEl, dayErrorEl, sumEl, thumbEl, titleSubEl;
   var current = null;   // the lamp being ordered
   var opener = null;    // the button that opened the dialog
 
@@ -152,69 +201,67 @@
 
     dlg = document.createElement('dialog');
     dlg.className = 'sy-dialog';
+    dlg.tabIndex = -1;
     dlg.setAttribute('aria-labelledby', 'sy-title');
     dlg.innerHTML =
       '<form class="sy-form" method="dialog" novalidate>' +
-        '<h2 class="sy-title" id="sy-title">' + W.title + '</h2>' +
-        '<p class="sy-sub" id="sy-product"></p>' +
-        '<fieldset class="sy-field"><legend>' + W.zoneLegend + '</legend>' +
-          '<label class="sy-choice"><input type="radio" name="zone" value="in" checked> ' + W.zoneIn + '</label>' +
-          '<label class="sy-choice"><input type="radio" name="zone" value="out"> ' + W.zoneOut + '</label>' +
-        '</fieldset>' +
-        '<div class="sy-field"><label class="sy-lab" for="sy-area">' + W.areaLabel + '</label>' +
-          '<input class="sy-input" id="sy-area" name="area" type="text" maxlength="80" autocomplete="address-level2" ' +
-            'aria-describedby="sy-error" placeholder="' + W.areaPlaceholder + '">' +
-          '<p class="sy-error" id="sy-error" role="alert"></p></div>' +
-        '<div class="sy-field" id="sy-date-field">' +
-          '<div class="sy-row">' +
-            '<div><label class="sy-lab" for="sy-date">' + W.dateLabel + '</label>' +
-              '<input class="sy-input" id="sy-date" name="date" type="date" aria-describedby="sy-date-error"></div>' +
-            '<div><label class="sy-lab" for="sy-time">' + W.timeLabel + '</label>' +
-              '<select class="sy-input" id="sy-time" name="time">' +
-                '<option value="">' + W.timeAny + '</option>' +
-                '<option value="morning">' + W.timeMorning + '</option>' +
-                '<option value="afternoon">' + W.timeAfternoon + '</option>' +
-              '</select></div>' +
-          '</div>' +
-          '<p class="sy-error" id="sy-date-error" role="alert"></p></div>' +
-        '<div class="sy-field"><label class="sy-lab" for="sy-pay">' + W.payLabel + '</label>' +
-          '<select class="sy-input" id="sy-pay" name="pay">' +
-            '<option value="full">' + W.payFull + '</option>' +
-            '<option value="deposit">' + W.payDeposit + '</option>' +
-          '</select></div>' +
-        '<p class="sy-note" id="sy-note" aria-live="polite"></p>' +
-        '<div class="sy-actions">' +
+        '<div class="sy-head">' +
+          '<img class="sy-thumb" alt="" hidden>' +
+          '<div class="sy-head-text"><h2 class="sy-title" id="sy-title">' + W.title + '</h2><p class="sy-sub" id="sy-product"></p></div>' +
+          '<button type="button" class="sy-x" data-close aria-label="' + W.close + '">' +
+            '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>' +
+          '</button>' +
+        '</div>' +
+        '<div class="sy-body">' +
+          '<fieldset class="sy-field"><legend class="sy-visually-hidden">' + W.zoneLegend + '</legend>' +
+            '<div class="sy-opts">' +
+              '<label class="sy-opt"><input type="radio" name="zone" value="in" checked><span class="sy-dot"></span><span class="sy-opt-text"><strong>' + W.zoneIn + '</strong></span></label>' +
+              '<label class="sy-opt"><input type="radio" name="zone" value="out"><span class="sy-dot"></span><span class="sy-opt-text"><strong>' + W.zoneOut + '</strong></span></label>' +
+            '</div></fieldset>' +
+          '<div class="sy-field"><label class="sy-lab" for="sy-area">' + W.areaLabel + '</label>' +
+            '<input class="sy-input" id="sy-area" name="area" type="text" maxlength="80" autocomplete="address-level2" ' +
+              'aria-describedby="sy-error" placeholder="' + W.areaPlaceholder + '">' +
+            '<p class="sy-error" id="sy-error" role="alert"></p></div>' +
+          '<div class="sy-field" id="sy-day-field">' +
+            '<div class="sy-row">' +
+              '<div><label class="sy-lab" for="sy-day">' + W.dayLabel + '</label>' +
+                '<select class="sy-input" id="sy-day" name="day" aria-describedby="sy-day-error"></select></div>' +
+              '<div><label class="sy-lab" for="sy-time">' + W.timeLabel + '</label>' +
+                '<select class="sy-input" id="sy-time" name="time">' +
+                  '<option value="">' + W.timeAny + '</option>' +
+                  '<option value="morning">' + W.timeMorning + '</option>' +
+                  '<option value="afternoon">' + W.timeAfternoon + '</option>' +
+                '</select></div>' +
+            '</div>' +
+            '<p class="sy-error" id="sy-day-error" role="alert"></p></div>' +
+          '<fieldset class="sy-field"><legend class="sy-legend">' + W.payLegend + '</legend>' +
+            '<div class="sy-opts">' +
+              '<label class="sy-opt"><input type="radio" name="pay" value="full" checked><span class="sy-dot"></span><span class="sy-opt-text"><strong>' + W.payFull + '</strong><small>' + W.payFullSub + '</small></span></label>' +
+              '<label class="sy-opt"><input type="radio" name="pay" value="deposit"><span class="sy-dot"></span><span class="sy-opt-text"><strong>' + W.payDeposit + '</strong><small>' + W.payDepositSub + '</small></span></label>' +
+            '</div></fieldset>' +
+          '<p class="sy-sum" id="sy-sum" aria-live="polite"></p>' +
+        '</div>' +
+        '<div class="sy-foot">' +
           '<button type="submit" class="btn btn-primary">' + W.submit + '</button>' +
-          '<button type="button" class="btn btn-outline" data-close>' + W.cancel + '</button>' +
+          '<p class="sy-reassure">' + W.reassure + '</p>' +
         '</div>' +
       '</form>';
     document.body.appendChild(dlg);
 
     form = dlg.querySelector('form');
     areaInput = dlg.querySelector('#sy-area');
-    dateInput = dlg.querySelector('#sy-date');
-    dateField = dlg.querySelector('#sy-date-field');
+    dayInput = dlg.querySelector('#sy-day');
+    dayField = dlg.querySelector('#sy-day-field');
     errorEl = dlg.querySelector('#sy-error');
-    dateErrorEl = dlg.querySelector('#sy-date-error');
-    noteEl = dlg.querySelector('#sy-note');
-    productEl = dlg.querySelector('#sy-product');
-
-    // A browser without a date picker turns the field into plain text:
-    // let people type the day instead.
-    dateIsNative = dateInput.type === 'date';
-    if (dateIsNative) {
-      dateInput.min = tomorrowIso();
-    } else {
-      dateInput.placeholder = W.datePlaceholder;
-      dateInput.maxLength = 40;
-    }
+    dayErrorEl = dlg.querySelector('#sy-day-error');
+    sumEl = dlg.querySelector('#sy-sum');
+    thumbEl = dlg.querySelector('.sy-thumb');
+    titleSubEl = dlg.querySelector('#sy-product');
 
     form.addEventListener('change', refresh);
     // an error goes away as soon as the person fixes the field
     areaInput.addEventListener('input', function () { errorEl.textContent = ''; areaInput.removeAttribute('aria-invalid'); });
-    ['input', 'change'].forEach(function (ev) {
-      dateInput.addEventListener(ev, function () { dateErrorEl.textContent = ''; dateInput.removeAttribute('aria-invalid'); });
-    });
+    dayInput.addEventListener('change', function () { dayErrorEl.textContent = ''; dayInput.removeAttribute('aria-invalid'); });
     dlg.querySelector('[data-close]').addEventListener('click', function () { dlg.close(); });
 
     // Close on a click on the dim background, but not when a text selection
@@ -231,30 +278,42 @@
     form.addEventListener('submit', onSubmit);
   }
 
+  // The next few days, starting tomorrow.
+  function fillDays() {
+    var html = '<option value="">' + W.dayPlaceholder + '</option>';
+    var d = new Date();
+    for (var i = 1; i <= DAYS_AHEAD; i++) {
+      var n = new Date(d.getFullYear(), d.getMonth(), d.getDate() + i);
+      var label = longDate(n);
+      var short = DAYS[n.getDay()].slice(0, 3) + ' ' + n.getDate() + ' ' + MONTHS[n.getMonth()].slice(0, 3);
+      html += '<option value="' + esc(label) + '">' + (i === 1 ? W.tomorrow + ', ' : '') + esc(short) + '</option>';
+    }
+    dayInput.innerHTML = html;
+  }
+
   function zone() { return form.elements.zone.value; }
   function paysDeposit() { return form.elements.pay.value === 'deposit'; }
 
-  // Keeps the highlighted choice, the date field and the note under the form
-  // in step with the answers. Outside Nairobi there is no date to pick: we
+  // Keeps the highlighted cards, the day field and the "what you pay" box
+  // in step with the answers. Outside Nairobi there is no day to pick: we
   // send the earliest date together with the delivery quote.
   function refresh() {
-    Array.prototype.forEach.call(form.querySelectorAll('.sy-choice'), function (l) {
+    Array.prototype.forEach.call(form.querySelectorAll('.sy-opt'), function (l) {
       l.classList.toggle('is-on', l.querySelector('input').checked);
     });
-    dateField.hidden = zone() !== 'in';
+    dayField.hidden = zone() !== 'in';
 
-    var lines = [zone() === 'in' ? W.noteIn : W.noteOut];
+    var inside = zone() === 'in';
     var total = current && amountOf(current.price);
-    if (paysDeposit() && total) {
-      var dep = Math.round(total * DEPOSIT_PERCENT / 100);
-      lines.push(W.noteDeposit(ksh(dep), ksh(total - dep)));
+    var dep = total ? Math.round(total * DEPOSIT_PERCENT / 100) : 0;
+    var rows = '<span class="' + (inside ? 'is-free' : '') + '"><b>' + (inside ? W.sumDeliveryIn : W.sumDeliveryOut) + '</b></span>';
+    if (paysDeposit()) {
+      rows += '<span class="is-pay">' + W.sumPayNow + ' <b>' + (total ? ksh(dep) : W.sumPayNowDeposit) + '</b></span>';
+      if (total) rows += '<span>' + W.sumBalance + ' <b>' + ksh(total - dep) + '</b></span>';
+    } else {
+      rows += '<span class="is-pay">' + W.sumPayNow + ' <b>' + (total ? ksh(total) : '') + '</b>' + (total ? '' : W.sumPayNowFull) + '</span>';
     }
-    noteEl.innerHTML = '';
-    lines.forEach(function (t) {
-      var s = document.createElement('span');
-      s.textContent = t;
-      noteEl.appendChild(s);
-    });
+    sumEl.innerHTML = rows;
   }
 
   function openWhatsApp(url) {
@@ -279,9 +338,9 @@
   function onSubmit(e) {
     e.preventDefault();
     errorEl.textContent = '';
-    dateErrorEl.textContent = '';
+    dayErrorEl.textContent = '';
     areaInput.removeAttribute('aria-invalid');
-    dateInput.removeAttribute('aria-invalid');
+    dayInput.removeAttribute('aria-invalid');
 
     var inside = zone() === 'in';
     var area = areaInput.value.trim().replace(/\s+/g, ' ');
@@ -290,13 +349,8 @@
     // delivery day and time of day (Nairobi orders only)
     var when = '';
     if (inside) {
-      var raw = dateInput.value.trim();
-      if (!raw) return fail(dateInput, dateErrorEl, W.dateError);
-      var day = raw;
-      if (dateIsNative) {
-        if (raw < tomorrowIso()) return fail(dateInput, dateErrorEl, W.dateOldError);
-        day = longDate(raw);
-      }
+      var day = dayInput.value;
+      if (!day) return fail(dayInput, dayErrorEl, W.dayError);
       var time = form.elements.time.value;
       when = day + (time ? ', ' + time : '');
     }
@@ -345,7 +399,13 @@
     }
     var link = btn.getAttribute('href') || '';
     var phone = (link.match(/wa\.me\/(\d+)/) || [])[1] || FALLBACK_PHONE;
-    return { name: (name || '').replace(/\s+/g, ' ').trim(), price: (price || '').trim(), phone: phone };
+    var img = document.querySelector('.main-photo img, .product-detail img');
+    return {
+      name: (name || '').replace(/\s+/g, ' ').trim(),
+      price: (price || '').trim(),
+      phone: phone,
+      photo: img ? (img.currentSrc || img.src) : ''
+    };
   }
 
   // Capture phase, so this runs before any other click handler on the button.
@@ -369,14 +429,14 @@
     current = info;
     opener = btn;
 
-    productEl.textContent = info.name + (info.price ? ', ' + info.price : '');
+    titleSubEl.textContent = info.name + (info.price ? ' · ' + info.price : '');
+    if (info.photo) { thumbEl.src = info.photo; thumbEl.hidden = false; } else { thumbEl.hidden = true; }
     errorEl.textContent = '';
-    dateErrorEl.textContent = '';
+    dayErrorEl.textContent = '';
     areaInput.removeAttribute('aria-invalid');
-    dateInput.removeAttribute('aria-invalid');
-    dateInput.value = '';                       // the day is chosen fresh for each order
+    dayInput.removeAttribute('aria-invalid');
+    fillDays();                                  // the day is chosen fresh for each order
     form.elements.time.value = '';
-    if (dateIsNative) dateInput.min = tomorrowIso();
 
     // earlier answers on this device
     var savedArea = safeGet('syimi-order-area');
@@ -389,7 +449,13 @@
     refresh();
     document.documentElement.classList.add('sy-locked');
     dlg.showModal();
-    areaInput.focus();
-    if (areaInput.value) areaInput.select();
+    // On a laptop, start typing the area straight away. On a phone, don't pop
+    // the keyboard over the sheet before the person has seen it.
+    if (window.matchMedia && window.matchMedia('(pointer: fine)').matches) {
+      areaInput.focus();
+      if (areaInput.value) areaInput.select();
+    } else {
+      dlg.focus();
+    }
   }, true);
 })();
