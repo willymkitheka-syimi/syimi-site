@@ -15,9 +15,9 @@
      - the page stays live with all its photos
    ============================================================ */
 window.SYIMI_AVAILABILITY = {
-  "penumbra-black":    "Available",   // "Available" or "Sold"
+  "penumbra-black": "Sold",   // "Available" or "Sold"
   "penumbra-offwhite": "Available",   // "Available" or "Sold"
-  "penumbra-beige":    "Available"    // "Available" or "Sold"
+  "penumbra-beige": "Available"    // "Available" or "Sold"
 };
 
 /* ------------------------------------------------------------
@@ -32,9 +32,9 @@ window.SYIMI_AVAILABILITY = {
 
   // The lamps that exist only once. The color is the name used on the page.
   var LAMPS = {
-    "penumbra-black":    { color: "Black",     url: "products/penumbra-black.html" },
+    "penumbra-black": { color: "Black", url: "products/penumbra-black.html" },
     "penumbra-offwhite": { color: "Off-white", url: "products/penumbra-offwhite.html" },
-    "penumbra-beige":    { color: "Beige",     url: "products/penumbra-beige.html" }
+    "penumbra-beige": { color: "Beige", url: "products/penumbra-beige.html" }
   };
 
   /* ---------------- WORDING — edit the sentences here ---------------- */
