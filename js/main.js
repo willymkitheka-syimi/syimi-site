@@ -135,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // colour is ever added, renamed, or retired — nothing else needs to change.
 const ALSO_LIKE_FAMILIES = {
   haven: {
-    priceKey: 'haven',
     variants: [
       { slug: 'beige',          name: 'Haven — Beige', favorite: true },
       { slug: 'offwhite',       name: 'Haven — Off-white', favorite: true },
@@ -174,10 +173,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const picks = others.slice(0, 3);
 
     // Price text comes from prices.js so it can never drift from it.
-    const entry = window.SYIMI_PRICES && window.SYIMI_PRICES[family.priceKey];
-    const priceText = entry ? 'KSh ' + Number(entry.price).toLocaleString('en-KE') : '';
 
     picks.forEach(variant => {
+      // Haven: every colour has its own price entry (haven-beige ...); Penumbra shares one.
+      const priceKey = family.priceKey || `${familyKey}-${variant.slug}`;
+      const entry = window.SYIMI_PRICES && window.SYIMI_PRICES[priceKey];
+      const priceText = entry ? 'KSh ' + Number(entry.price).toLocaleString('en-KE') : '';
       const item = document.createElement('a');
       item.href = `${familyKey}-${variant.slug}.html`;
       item.className = 'also-like-item';
@@ -189,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="also-like-thumb"><img src="../images/${familyKey}-${variant.slug}-main.jpg" alt="${variant.name}"></div>
         <div>
           <h4>${variant.name}</h4>
-          <p data-price-key="${family.priceKey}">${priceText}</p>
+          <p data-price-key="${priceKey}">${priceText}</p>
           ${favTag}
         </div>`;
       panel.appendChild(item);

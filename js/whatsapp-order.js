@@ -126,7 +126,7 @@
     // body (scrolls on a short screen) and the sticky footer
     '.sy-body{flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 20px 14px;display:grid;gap:11px;align-content:start}' +
     '.sy-foot{padding:10px 20px 14px;border-top:1px solid var(--line,rgba(28,22,19,.14));background:var(--paper,#f1ece1);display:grid;gap:8px}' +
-    '.sy-foot .btn{width:100%;justify-content:center;font:inherit;font-size:.92rem;font-weight:500;padding:12px 20px}' +
+    '.sy-foot .btn{width:100%;justify-content:center;font:inherit;font-size:.92rem;font-weight:600;padding:12px 20px}' +
     '.sy-reassure{margin:0;text-align:center;font-size:.72rem;line-height:1.4;color:rgba(28,22,19,.6)}' +
 
     // fields

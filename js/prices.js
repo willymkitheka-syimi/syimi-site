@@ -47,8 +47,9 @@
    Each table lamp — orimu, merutia, amasot, enguri — has its own
    entry, so you can run a different offer on just one of them.
 
-   Haven's 5 colours all read from the single "haven" entry below,
-   so editing it once updates every Haven colour page together.
+   Each Haven colour (haven-beige, haven-offwhite, haven-lightslategrey,
+   haven-darknavyblue, haven-yellowbeige) has its own entry, so every
+   colour can be priced, or put on offer, separately.
 
    Penumbra and Umbra each have their own entry at the bottom of the list.
    ============================================================ */
@@ -69,9 +70,25 @@ window.SYIMI_PRICES = {
     price: 7500,
     offer: { active: false, discountedPrice: 6499, deadline: "soon" }
   },
-  haven: {
+  "haven-beige": {
     price: 12500,
-    offer: { active: false, discountedPrice: 11400, deadline: "Soon" }
+    offer: { active: false, discountedPrice: 11400, deadline: "soon" }
+  },
+  "haven-offwhite": {
+    price: 12500,
+    offer: { active: false, discountedPrice: 11400, deadline: "soon" }
+  },
+  "haven-lightslategrey": {
+    price: 12500,
+    offer: { active: false, discountedPrice: 11400, deadline: "soon" }
+  },
+  "haven-darknavyblue": {
+    price: 12500,
+    offer: { active: false, discountedPrice: 11400, deadline: "soon" }
+  },
+  "haven-yellowbeige": {
+    price: 12500,
+    offer: { active: false, discountedPrice: 11400, deadline: "soon" }
   },
   penumbra: {
     price: 16000,

@@ -220,7 +220,8 @@ nav.main-nav a.active::after { transform: scaleX(1); }
   display: block;
 }
 
-.hero .photo-placeholder { aspect-ratio: 5 / 4; min-height: 280px; }
+.hero .photo-placeholder { aspect-ratio: 4 / 5; max-height: 78vh; min-height: 0; width: 100%; }
+.hero .photo-placeholder img { object-position: 60% 50%; }
 
 /* ---------- sections ---------- */
 
@@ -475,7 +476,7 @@ form.enquiry textarea { min-height: 120px; resize: vertical; }
   gap: 40px;
 }
 .category-tile { text-decoration: none; color: var(--ink); display: block; }
-.category-tile .photo-placeholder { aspect-ratio: 16 / 11; min-height: 0; margin-bottom: 20px; }
+.category-tile .photo-placeholder { aspect-ratio: 4 / 5; min-height: 0; margin-bottom: 20px; }
 .category-tile h3 { margin-bottom: 6px; font-size: 1.1rem; }
 .category-tile p { margin-bottom: 14px; color: rgba(28,22,19,0.7); font-size: 0.88rem; }
 
@@ -734,15 +735,13 @@ a.wordmark:hover { opacity: 0.8; }
    staggered scroll-reveal for the tiles and CTA row.
    ============================================================ */
 
-.hero h1 { font-size: clamp(1.7rem, 2.8vw, 2.3rem); }
+.hero h1 { font-size: clamp(2.4rem, 4.6vw, 4rem); line-height: 1.08; }
 
-/* Hero photo: no hard box — a soft radial mask lets it dissolve
-   into the page background instead of sitting in a sharp-edged
-   rectangle. Works the same whether the image sits beside the
-   text (desktop) or below it (mobile). Uses a plain overlay
-   gradient (not CSS `mask`) since mask-image support/behaviour
-   is inconsistent — this renders identically everywhere. */
-.hero-photo-glow { position: relative; }
+/* Hero photo: a clean photo with the site's lampshade corner shape
+   (2px 22px 2px 22px, set on .photo-placeholder). The old soft faded
+   edge was removed. The glow below only matters if the optional
+   "switch it on" button (currently commented out in index.html) is used. */
+.hero-photo-glow { position: relative; overflow: hidden; } /* keeps the (off) glow from widening the page on phones */
 .hero-photo-glow::before {
   content: '';
   position: absolute;
@@ -757,24 +756,10 @@ a.wordmark:hover { opacity: 0.8; }
 .hero-photo-glow .photo-placeholder {
   position: relative;
   z-index: 1;
-  border-radius: 0;
   overflow: hidden;
 }
 .hero-photo-glow .photo-placeholder img { transition: filter 0.9s ease; }
 .hero-photo-glow.is-on .photo-placeholder img { filter: brightness(1.15) saturate(1.2) contrast(1.03); }
-.hero-photo-glow .photo-placeholder::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(ellipse 78% 78% at 50% 42%, transparent 42%, var(--paper) 96%);
-  transition: background 0.9s ease;
-}
-.hero-photo-glow.is-on .photo-placeholder::after {
-  background: radial-gradient(ellipse 88% 88% at 50% 42%, rgba(245, 190, 96, 0) 30%, rgba(245, 190, 96, 0.6) 68%, var(--paper) 100%);
-}
-
 .lamp-toggle {
   display: inline-flex;
   align-items: center;
@@ -1051,7 +1036,6 @@ section.tight.listing-section { padding-top: 28px; }
   .footer-grid h4 { font-size: 0.82rem; }
   .hero-actions { gap: 12px; }
   .lamp-toggle { display: none; }
-  .hero-photo-glow { display: none; }
   .btn { padding: 10px 16px; font-size: 0.8rem; }
   .spec-list li { font-size: 0.88rem; }
 }
@@ -1162,18 +1146,58 @@ section.tight.listing-section { padding-top: 28px; }
 .contact-head h1 { font-size: clamp(1.6rem, 2.6vw, 2.15rem); margin-bottom: 6px; }
 .contact-head .lede { margin: 0; max-width: none; }
 
-/* "How to order" block on the Contact page */
-.how-to-order {
+/* Contact page: how to order (left) beside the message form (right), contact bar beneath */
+.how-to-order, .contact-form-card {
   background: var(--paper-dim);
-  border-left: 3px solid var(--rust);
-  border-radius: 2px;
-  padding: 18px 26px;
-  margin: 0 0 32px;
+  border-radius: 2px 22px 2px 22px; /* the lampshade taper used on the buttons */
+  padding: 30px 32px;
 }
-.how-to-order h3 { font-size: 1.05rem; margin: 0 0 6px; color: var(--mahogany); }
-.how-to-order p { margin: 0; font-size: 0.92rem; line-height: 1.6; max-width: none; }
+.how-to-order h3, .contact-form-card h3 { font-size: 1.25rem; margin: 0 0 4px; color: var(--mahogany); }
+.how-sub { margin: 0 0 20px; font-size: 0.9rem; color: rgba(28, 22, 19, 0.62); max-width: none; }
+.how-to-order ol { list-style: none; counter-reset: step; margin: 0; padding: 0; display: grid; gap: 18px; }
+.how-to-order li { counter-increment: step; position: relative; padding-left: 46px; display: grid; gap: 2px; font-size: 0.92rem; line-height: 1.55; }
+.how-to-order li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 0;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--mahogany); color: var(--paper);
+  display: grid; place-items: center;
+  font-family: var(--font-display); font-size: 1rem;
+}
+.how-to-order strong { color: var(--mahogany); font-weight: 600; font-size: 0.98rem; }
+.contact-grid { align-items: stretch; }
+.how-to-order { display: flex; flex-direction: column; }
+.how-to-order .how-browse, .contact-form-card .enquiry .btn { box-sizing: border-box; height: 46px; min-height: 46px; font-size: 0.95rem; line-height: 1; }
+.how-to-order .how-browse { margin-top: auto; align-self: stretch; } /* sits level with the Send button beside it */
+.how-to-order ol { margin-bottom: 26px; }
+.contact-form-card .enquiry { margin: 0; }
+
+.contact-bar {
+  margin-top: 36px;
+  display: flex; align-items: center; gap: 12px 28px; flex-wrap: wrap;
+  padding: 20px 28px;
+  border: 1px solid var(--line);
+  border-radius: 2px 22px 2px 22px;
+}
+.contact-bar-title { margin: 0; font-family: var(--font-display); font-size: 1.1rem; color: var(--mahogany); }
+.contact-bar-links { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; min-width: 0; }
+.contact-pill {
+  display: flex; align-items: center; gap: 13px;
+  padding: 12px 18px;
+  background: var(--paper-dim);
+  border-radius: 99px;
+  text-decoration: none; color: inherit;
+  transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.2s ease;
+}
+.contact-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(110, 49, 38, 0.16); background: #ece4d3; }
+.contact-pill:focus-visible { outline: 2px solid var(--mahogany); outline-offset: 2px; }
+.contact-pill-text { display: grid; line-height: 1.25; min-width: 0; }
+.contact-pill-text b { font-weight: 600; font-size: 0.95rem; }
+.contact-pill-text small { font-size: 0.8rem; color: rgba(28, 22, 19, 0.6); overflow: hidden; text-overflow: ellipsis; }
 @media (max-width: 900px) {
-  .how-to-order { padding: 16px 20px; margin-bottom: 26px; }
+  .how-to-order, .contact-form-card { padding: 24px 22px; }
+  .contact-bar { padding: 18px 18px; margin-top: 28px; }
+  .contact-bar-links { grid-template-columns: 1fr; flex-basis: 100%; }
 }
 
 /* delivery and payment terms under the price on lamp pages */
@@ -1288,3 +1312,155 @@ section.tight.listing-section { padding-top: 28px; }
 .sold-others { margin: 12px 0 0; font-size: 0.86rem; max-width: none; }
 .sold-others a { color: var(--mahogany); text-underline-offset: 2px; }
 .sticky-order-bar[hidden] { display: none !important; }
+
+/* ============================================================
+   Home page redesign (Part 1): hero at about one screen,
+   "Lamps to start with" row, category tiles with portrait photos.
+   ============================================================ */
+
+/* Hero: fills roughly one screen on desktop */
+@media (min-width: 901px) {
+  .hero {
+    min-height: calc(100vh - 76px);
+    min-height: calc(100svh - 76px);
+    display: flex;
+    align-items: center;
+    padding: 28px 0;
+  }
+  .hero .wrap { width: 100%; }
+}
+@media (max-width: 900px) {
+  .hero .photo-placeholder { max-height: 70vh; }
+}
+
+/* "Shop table lamps" and "See all floor lamps": plain text links */
+.hero-link,
+.section-link {
+  color: var(--ink);
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(28, 22, 19, 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+.hero-link:hover,
+.section-link:hover { color: var(--mahogany); text-decoration-color: var(--mahogany); }
+
+/* "Lamps to start with": three cards on desktop */
+.product-grid--start {
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  justify-content: space-between;
+}
+
+/* Under 900px: one swipeable row, cards about 70% wide */
+@media (max-width: 900px) {
+  .product-grid--start {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    scrollbar-width: thin;
+  }
+  .product-grid--start .product-card {
+    flex: 0 0 70%;
+    max-width: 300px;
+    scroll-snap-align: start;
+  }
+}
+
+/* ---------- hero slider (js/hero-slider.js): photos only, plays by itself ---------- */
+.hero-slider { position: relative; }
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.hero-slide.is-active { opacity: 1; z-index: 1; }
+.hero-slide img { position: absolute; inset: 0; }
+.hero-slide.is-active img { animation: hero-drift 9s ease-out both; }
+@keyframes hero-drift { from { transform: scale(1); } to { transform: scale(1.05); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide.is-active img { animation: none; } /* still fades between photos, without the slow zoom */
+}
+
+/* ============================================================
+   Buttons, refined: a little larger and easier to tap, a soft
+   shadow and lift on the main buttons, a clear press and focus
+   state, the WhatsApp mark on the order buttons, and a gentle
+   arrow on the text links. Keeps the lampshade-taper corners.
+   ============================================================ */
+.btn {
+  justify-content: center;
+  gap: 10px;
+  min-height: 46px;
+  padding: 12px 26px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  border-radius: 2px 16px 2px 16px;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+              box-shadow 0.25s ease, transform 0.2s ease;
+}
+.btn-primary {
+  background: var(--mahogany);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 4px 14px rgba(110, 49, 38, 0.22);
+}
+.btn-primary:hover {
+  background: #5a2820;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 9px 22px rgba(110, 49, 38, 0.34);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(110, 49, 38, 0.28); }
+.btn-outline { border-width: 1.5px; padding: 11px 25px; }
+.btn-outline:hover { background: rgba(110, 49, 38, 0.07); border-color: var(--mahogany); color: var(--mahogany); transform: translateY(-1px); }
+.btn-outline:active { transform: translateY(0); background: rgba(110, 49, 38, 0.12); }
+.btn:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+.btn-sold, .btn-sold:hover, .btn-sold:active { transform: none; box-shadow: none; }
+
+/* lamp pages: the two buttons stack at the same full width */
+.product-meta .hero-actions .btn { flex: 1 1 100%; }
+
+/* WhatsApp mark on the order buttons and the Send button */
+.btn[data-whatsapp-order]::before,
+.contact-form-card .enquiry .btn::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 18px; height: 18px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.9' stroke-linejoin='round'%3E%3Cpath d='M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.btn-sold::before { display: none; }
+
+/* text links get a small arrow that nudges on hover */
+.hero-link::after,
+.section-link::after {
+  content: "\2192";
+  display: inline-block;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+.hero-link:hover::after,
+.section-link:hover::after { transform: translateX(4px); }
+.hero-link:focus-visible, .section-link:focus-visible { outline: 2px solid var(--brass); outline-offset: 4px; border-radius: 2px; }
+
+.nav-toggle { border-radius: 8px; }
+.nav-toggle:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+
+.sticky-order-bar .btn { min-height: 44px; padding: 10px 20px; font-size: 0.88rem; }
+@media (max-width: 900px) {
+  .btn { padding: 11px 22px; font-size: 0.9rem; min-height: 46px; }
+  .btn-outline { padding: 10px 21px; }
+  .sticky-order-bar .btn { padding: 10px 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn, .hero-link::after, .section-link::after { transition: none; }
+  .btn-primary:hover, .btn-outline:hover { transform: none; }
+  .hero-link:hover::after, .section-link:hover::after { transform: none; }
+}
