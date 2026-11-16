@@ -139,8 +139,8 @@ const ALSO_LIKE_FAMILIES = {
       { slug: 'beige',          name: 'Haven — Beige', favorite: true },
       { slug: 'offwhite',       name: 'Haven — Off-white', favorite: true },
       { slug: 'lightslategrey', name: 'Haven — Light slate grey' },
-      { slug: 'darknavyblue',   name: 'Haven — Dark Navy Blue' },
-      { slug: 'yellowbeige',    name: 'Haven — Yellow Beige' }
+      { slug: 'charcoalgrey',   name: 'Haven — Charcoal grey' },
+      { slug: 'oatmeal',        name: 'Haven — Oatmeal' }
     ]
   },
   penumbra: {

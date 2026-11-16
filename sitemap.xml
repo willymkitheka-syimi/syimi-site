@@ -33,14 +33,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://syimi.co.ke/products/haven-yellowbeige.html</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://syimi.co.ke/products/haven-darknavyblue.html</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://syimi.co.ke/products/penumbra-beige.html</loc>
     <priority>0.7</priority>
   </url>
@@ -50,10 +42,6 @@
   </url>
   <url>
     <loc>https://syimi.co.ke/products/penumbra-black.html</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://syimi.co.ke/products/umbra-beige.html</loc>
     <priority>0.7</priority>
   </url>
   <url>
@@ -75,5 +63,13 @@
   <url>
     <loc>https://syimi.co.ke/privacy.html</loc>
     <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/products/haven-charcoalgrey.html</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://syimi.co.ke/products/haven-oatmeal.html</loc>
+    <priority>0.7</priority>
   </url>
 </urlset>
