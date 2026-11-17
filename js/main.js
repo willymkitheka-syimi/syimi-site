@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
 const ALSO_LIKE_FAMILIES = {
   haven: {
     variants: [
-      { slug: 'beige',          name: 'Haven — Beige', favorite: true },
-      { slug: 'offwhite',       name: 'Haven — Off-white', favorite: true },
+      { slug: 'beige',          name: 'Haven — Beige' },
+      { slug: 'offwhite',       name: 'Haven — Off-white' },
       { slug: 'lightslategrey', name: 'Haven — Light slate grey' },
       { slug: 'charcoalgrey',   name: 'Haven — Charcoal grey' },
       { slug: 'oatmeal',        name: 'Haven — Oatmeal' }
